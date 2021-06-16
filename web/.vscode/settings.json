@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/c59d69fb-af3a-4759-bc05-19aaa2b3eace/resourceGroups/GymTEC/providers/Microsoft.Web/sites/gym-tec",
+    "appService.deploySubpath": "dist\\webDevelopment"
+}
