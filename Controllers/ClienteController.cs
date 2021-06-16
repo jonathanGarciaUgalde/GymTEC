@@ -20,6 +20,8 @@ namespace Gym_Tec_Cliente.Controllers
 
         
         [HttpPost]
+
+      
         public async Task<IActionResult>insertCliente(Cliente cliente){
 
                 MongoClient dbClient = new MongoClient(service.initServer());

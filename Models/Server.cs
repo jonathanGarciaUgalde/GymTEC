@@ -14,9 +14,9 @@ namespace Gym_Tec_Cliente.Models
             initDataBase();
 
         }
-
+        
         public string initServer() {
-            return "mongodb + srv://root:root@cluster0.38ggm.mongodb.net/test";
+            return "mongodb+srv://root:root@cluster0.38ggm.mongodb.net/test";
         }
         public string initCluster() {
             return "GymTEC";
