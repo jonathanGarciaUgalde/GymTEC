@@ -10,7 +10,7 @@ public class Cliente
     {
     [BsonId]
 
-    public double Cedula { get; set;}
+    public int Cedula { get; set;}
         public string Nombre { get; set; }
         public string Apellidos { get; set; }
         public double Edad { get; set; }
@@ -20,7 +20,7 @@ public class Cliente
         public string Direccion { get; set; }
 
         public string Correo { get; set; }
-        public double Pass { get; set; }
+        public string Pass { get; set; }
 
        
     }

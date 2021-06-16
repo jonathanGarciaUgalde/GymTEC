@@ -25,7 +25,7 @@ namespace Gym_Tec_Cliente.Controllers
                 MongoClient dbClient = new MongoClient(service.initServer());
                 var db = dbClient.GetDatabase(service.initCluster());
                 var col = db.GetCollection<BsonDocument>(service.initDataBase());
-                string encryptedPass = MD5Encoding.MD5Encryption("pedro");
+                string encryptedPass = MD5Encoding.MD5Encryption(cliente.Pass);
           
             BsonDocument doc = new BsonDocument
             {
@@ -38,7 +38,7 @@ namespace Gym_Tec_Cliente.Controllers
                  {"IMC", cliente.IMC},
                 { "correo",cliente.Correo},
                 { "direccion",cliente.Direccion},
-                {"pass", cliente.Pass}
+                {"pass", encryptedPass}
             };
 
             try
@@ -47,7 +47,7 @@ namespace Gym_Tec_Cliente.Controllers
                 return Ok();
             }
             catch {
-                return BadRequest("no se pueden meter dos a la vez");
+                return BadRequest();
             }
         }
         [HttpPost("{cedula}")]
@@ -55,14 +55,14 @@ namespace Gym_Tec_Cliente.Controllers
         {
             try
             {
-                MongoClient dbClient = new MongoClient("mongodb+srv://root:root@cluster0.38ggm.mongodb.net/test");
-                var db = dbClient.GetDatabase("GymTEC");
+                MongoClient dbClient = new MongoClient(service.initServer());
+                var db = dbClient.GetDatabase(service.initCluster());
               
                 var builder = Builders<Cliente>.Filter;
                 var filter1 = builder.Eq(u => u.Cedula, cedula);
-                var filter2 = builder.Eq(u => u.Pass, 1212);
-                var fullFilter = builder.And(new[] { filter1, filter2 });
-                var col = db.GetCollection<Cliente>("clientes");
+             
+                var fullFilter = builder.And(new[] { filter1 });
+                var col = db.GetCollection<Cliente>(service.initDataBase());
                
 
                 var client = col.Find(fullFilter).FirstOrDefault().ToJson();
