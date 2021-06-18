@@ -20,37 +20,191 @@ namespace APIGymTEC.Models
         public string Distrito { get; set; }
 
     }
-
-
+    
     public class SucursalDataAccessLayer
     {
         string connectionString = ConnectionString.CName;
 
-        public IEnumerable<Sucursal> GetAllSucursales()
+        public IEnumerable<Sucursal> GetAllSucursales() //GET 
         {
             List<Sucursal> sucursales = new List<Sucursal>();
-            return sucursales;
+            
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    SqlCommand cmd = new SqlCommand("uspSelectSucursal", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id", -1);
+
+                    con.Open();
+
+                    SqlDataReader rdr = null;
+
+                    try
+                    {
+                        rdr = cmd.ExecuteReader();
+                    }
+                    catch (SqlException ex)
+                    {
+                        throw new Exception(ex.Message);
+                    }
+
+
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            Sucursal sucursal = new Sucursal();
+                            sucursal.Id = Convert.ToInt32(rdr["Id"]);
+                            //sucursal.Tienda = rdr.GetBoolean(2);
+                            //sucursal.Spa = rdr.GetBoolean(3);
+                            sucursal.Capacidad = Convert.ToInt32(rdr["Capacidad"]);
+                            sucursal.Nombre = rdr["Nombre"].ToString();
+                            sucursal.Provincia = rdr["Provincia"].ToString();
+                            sucursal.Canton = rdr["Canton"].ToString();
+                            sucursal.Distrito = rdr["Distrito"].ToString();
+
+
+                            sucursales.Add(sucursal);
+                        }
+                    }
+
+                    rdr.Close();
+                    con.Close();
+                    return sucursales;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
-        public void AddSucursal(Sucursal sucursal)
-        {
 
+        public Sucursal GetSucursal(int? id) // GET
+        {
+            Sucursal sucursal = new Sucursal();
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    SqlCommand cmd = new SqlCommand("uspSelectSucursal", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id", id);
+
+                    con.Open();
+
+                    SqlDataReader rdr = null;
+
+                    try
+                    {
+                        rdr = cmd.ExecuteReader();
+                    }
+                    catch (SqlException ex)
+                    {
+                        throw new Exception(ex.Message);
+                    }
+
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            sucursal.Id = Convert.ToInt32(rdr["Id"]);
+                            sucursal.Tienda = (bool)rdr["Tienda"];
+                            sucursal.Spa = (bool)rdr["Spa"];
+                            sucursal.Capacidad = Convert.ToInt32(rdr["Capacidad"]);
+                            sucursal.Nombre = rdr["Nombre"].ToString();
+                            sucursal.Provincia = rdr["Provincia"].ToString();
+                            sucursal.Canton = rdr["Canton"].ToString();
+                            sucursal.Distrito = rdr["Distrito"].ToString();
+                        }
+                    }
+                    return sucursal;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
-        public void UpdateStudent(Sucursal sucursal)
+        public void AddSucursal(Sucursal sucursal) //CREATE
         {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    SqlCommand cmd = new SqlCommand("uspInsertarSucursal", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
 
+                    //cmd.Parameters.AddWithValue("@Id", sucursal.Id);
+                    cmd.Parameters.AddWithValue("@Tienda", sucursal.Tienda);
+                    cmd.Parameters.AddWithValue("@Spa", sucursal.Spa);
+                    cmd.Parameters.AddWithValue("@Capacidad", sucursal.Capacidad);
+                    cmd.Parameters.AddWithValue("@Nombre", sucursal.Nombre);
+                    cmd.Parameters.AddWithValue("@Provincia", sucursal.Provincia);
+                    cmd.Parameters.AddWithValue("@Canton", sucursal.Canton);
+                    cmd.Parameters.AddWithValue("@Distrito", sucursal.Distrito);
+
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
-        public Sucursal GetSucursal(int? id)
+        public void UpdateSucursal(Sucursal sucursal) // UPDATE
         {
-            Sucursal sucursal= new Sucursal();
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    SqlCommand cmd = new SqlCommand("uspUpdateSucursal", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
 
-            return sucursal;
+                    cmd.Parameters.AddWithValue("@Id", sucursal.Id);
+                    cmd.Parameters.AddWithValue("@Tienda", sucursal.Tienda);
+                    cmd.Parameters.AddWithValue("@Spa", sucursal.Spa);
+                    cmd.Parameters.AddWithValue("@Capacidad", sucursal.Capacidad);
+                    cmd.Parameters.AddWithValue("@Nombre", sucursal.Nombre);
+                    cmd.Parameters.AddWithValue("@Provincia", sucursal.Provincia);
+                    cmd.Parameters.AddWithValue("@Canton", sucursal.Canton);
+                    cmd.Parameters.AddWithValue("@Distrito", sucursal.Distrito);
+
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
         }
-
-        public void DeleteSucursal(int? id)
+    
+        public void DeleteSucursal(int? id) //DELETE
         {
-
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    SqlCommand cmd = new SqlCommand("uspDeleteSucursal", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }
