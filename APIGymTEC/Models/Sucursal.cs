@@ -139,8 +139,8 @@ namespace APIGymTEC.Models
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     //cmd.Parameters.AddWithValue("@Id", sucursal.Id);
-                    cmd.Parameters.AddWithValue("@Tienda", sucursal.Tienda);
-                    cmd.Parameters.AddWithValue("@Spa", sucursal.Spa);
+                    cmd.Parameters.AddWithValue("@Tienda", false);
+                    cmd.Parameters.AddWithValue("@Spa", false);
                     cmd.Parameters.AddWithValue("@Capacidad", sucursal.Capacidad);
                     cmd.Parameters.AddWithValue("@Nombre", sucursal.Nombre);
                     cmd.Parameters.AddWithValue("@Provincia", sucursal.Provincia);

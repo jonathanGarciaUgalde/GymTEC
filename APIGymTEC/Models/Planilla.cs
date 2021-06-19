@@ -16,6 +16,7 @@ namespace APIGymTEC.Models
         public int Hora { get; set; }
         public int Clase { get; set; }
         public int IdSucursal { get; set; }
+        public int Cantidad { get; set; }
     }
 
 
@@ -164,6 +165,7 @@ namespace APIGymTEC.Models
                     cmd.Parameters.AddWithValue("@hora", planilla.Hora);
                     cmd.Parameters.AddWithValue("@clase", planilla.Clase);
                     cmd.Parameters.AddWithValue("@sucursal", planilla.IdSucursal);
+                    cmd.Parameters.AddWithValue("@cantidad", planilla.Cantidad);
 
                     con.Open();
                     cmd.ExecuteNonQuery();
