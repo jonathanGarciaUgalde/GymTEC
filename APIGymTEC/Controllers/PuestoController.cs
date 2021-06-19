@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using APIGymTEC.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -12,6 +13,14 @@ namespace APIGymTEC.Controllers
     [ApiController]
     public class PuestoController : ControllerBase
     {
+
+
+        PuestoDataAccessLayer puestoDataAccessLayer = null;
+        public PuestoController()
+        {
+            puestoDataAccessLayer = new PuestoDataAccessLayer();
+        }
+
         // GET: api/<PuestoController>
         [HttpGet]
         public ActionResult Get()
@@ -35,9 +44,17 @@ namespace APIGymTEC.Controllers
 
         // PUT api/<PuestoController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] string value)
+        public ActionResult Put(int id, [FromBody] Puesto puesto)
         {
-            return Ok();
+            try
+            {
+                puestoDataAccessLayer.UpdatePuesto(puesto);
+                return Ok(puesto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // DELETE api/<PuestoController>/5
