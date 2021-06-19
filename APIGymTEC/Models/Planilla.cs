@@ -158,12 +158,12 @@ namespace APIGymTEC.Models
                     SqlCommand cmd = new SqlCommand("actualizarPlanilla", con);
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("@Id", planilla.Id);
-                    cmd.Parameters.AddWithValue("@Nombre", planilla.Nombre);
-                    cmd.Parameters.AddWithValue("@Mensual", planilla.Mensual);
-                    cmd.Parameters.AddWithValue("@Hora", planilla.Hora);
-                    cmd.Parameters.AddWithValue("@Clase", planilla.Clase);
-                    cmd.Parameters.AddWithValue("@IdSucursal", planilla.IdSucursal);
+                    cmd.Parameters.AddWithValue("@id", planilla.Id);
+                    cmd.Parameters.AddWithValue("@nombre", planilla.Nombre);
+                    cmd.Parameters.AddWithValue("@mensual", planilla.Mensual);
+                    cmd.Parameters.AddWithValue("@hora", planilla.Hora);
+                    cmd.Parameters.AddWithValue("@clase", planilla.Clase);
+                    cmd.Parameters.AddWithValue("@sucursal", planilla.IdSucursal);
 
                     con.Open();
                     cmd.ExecuteNonQuery();

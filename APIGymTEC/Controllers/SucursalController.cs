@@ -72,6 +72,7 @@ namespace APIGymTEC.Controllers
         {
             try
             {
+                sucursal.Id = id;
                 sucursalDataAccessLayer.UpdateSucursal(sucursal);
                 return Ok(sucursal);
             }
@@ -97,5 +98,44 @@ namespace APIGymTEC.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        // PUT api/<SucursalController>/5
+        [HttpPut("ActivarSpa/{idSucursal}")]
+        public ActionResult ActivarSpa(int idSucursal)
+        {
+            try
+            {                
+                sucursalDataAccessLayer.ActivarSpa(idSucursal);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // PUT api/<SucursalController>/5
+        [HttpPut("ActivarTienda/{idSucursal}")]
+        public ActionResult ActivarTienda(int idSucursal)
+        {
+            try
+            {
+                sucursalDataAccessLayer.ActivarTienda(idSucursal);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+
+
+
+
+
+
+
     }
 }

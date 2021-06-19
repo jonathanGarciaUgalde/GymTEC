@@ -14,8 +14,6 @@ namespace APIGymTEC.Controllers
     public class PlanillaController : ControllerBase
     {
 
-
-
         PlanillaDataAccessLayer planillaDataAccessLayer = null;
         public PlanillaController()
         {
