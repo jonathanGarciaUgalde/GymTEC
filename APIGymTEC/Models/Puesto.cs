@@ -36,7 +36,7 @@ namespace APIGymTEC.Models
             {
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {
-                    SqlCommand cmd = new SqlCommand("uspUpdateSucursal", con);
+                    SqlCommand cmd = new SqlCommand("uspUpdatePuesto", con);
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.Parameters.AddWithValue("@Id", puesto.Id);
