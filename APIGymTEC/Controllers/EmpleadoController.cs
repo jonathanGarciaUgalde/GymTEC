@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using APIGymTEC.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -12,39 +13,88 @@ namespace APIGymTEC.Controllers
     [ApiController]
     public class EmpleadoController : ControllerBase
     {
+        EmpleadoDataAccessLayer empleadoDataAccessLayer = null;
+        public EmpleadoController()
+        {
+            empleadoDataAccessLayer = new EmpleadoDataAccessLayer();
+        }
+
         // GET: api/<EmpleadoController>
         [HttpGet]
         public ActionResult Get()
         {
-            return Ok();
+            try
+            {
+                IEnumerable<EmpleadoCargo> empleados = empleadoDataAccessLayer.GetAllEmpleado();
+                return Ok(empleados);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // GET api/<EmpleadoController>/5
-        [HttpGet("{id}")]
-        public ActionResult Get(int id)
+        [HttpGet("{cedula}")]
+        public ActionResult Get(string cedula)
         {
-            return Ok();
+            try
+            {
+                EmpleadoCargo empleado = empleadoDataAccessLayer.GetEmpleado(cedula);
+                return Ok(empleado);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // POST api/<EmpleadoController>
         [HttpPost]
-        public ActionResult Post([FromBody] string value)
+        public ActionResult Post([FromBody] EmpleadoCargo empleado)
         {
-            return Ok();
+            try
+            {
+                empleadoDataAccessLayer.AddEmpleado(empleado);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // PUT api/<EmpleadoController>/5
-        [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] string value)
+        [HttpPut("{cedula}")]
+        public ActionResult Put(string cedula, [FromBody] EmpleadoCargo empleado)
         {
-            return Ok();
+            try
+            {
+                empleado.Cedula = cedula;
+                empleadoDataAccessLayer.UpdateEmpleado(empleado);
+                return Ok(empleado);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // DELETE api/<EmpleadoController>/5
-        [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        [HttpDelete("{cedula}")]
+        public ActionResult Delete(string cedula)
         {
-            return Ok();
+            try
+            {
+                Empleado empleado= new Empleado();
+                empleado.Cedula = cedula;
+                empleadoDataAccessLayer.DeleteEmpleado(empleado.Cedula);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
