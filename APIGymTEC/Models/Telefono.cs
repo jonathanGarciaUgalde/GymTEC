@@ -94,13 +94,20 @@ namespace APIGymTEC.Models
 
                     if (rdr.HasRows)
                     {
-                        Telefono telefono = new Telefono();
-                        telefono.Tel = Convert.ToInt32(rdr["Tel"]);
-                        telefono.IdSucursal = Convert.ToInt32(rdr["IdSucursal"]);
+                        while (rdr.Read())
+                        {
+                            Telefono telefono = new Telefono();
+                            telefono.Tel = Convert.ToInt32(rdr["Tel"]);
+                            telefono.IdSucursal = Convert.ToInt32(rdr["IdSucursal"]);
 
 
-                        telefonos.Add(telefono);
+                            telefonos.Add(telefono);
+                        }
                     }
+
+
+                    rdr.Close();
+                    con.Close();
                     return telefonos;
                 }
             }
