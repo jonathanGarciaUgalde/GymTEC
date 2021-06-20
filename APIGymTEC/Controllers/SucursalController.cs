@@ -20,6 +20,9 @@ namespace APIGymTEC.Controllers
             sucursalDataAccessLayer = new SucursalDataAccessLayer();
         }
 
+
+
+
         // GET: api/<SucursalController>
         [HttpGet]
         public ActionResult Get()
