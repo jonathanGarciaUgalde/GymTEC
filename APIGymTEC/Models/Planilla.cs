@@ -11,12 +11,13 @@ namespace APIGymTEC.Models
     public class Planilla
     {
         public int Id { get; set; }
-        public string Nombre { get; set; }
+        public string Cargo { get; set; }
         public int Mensual { get; set; }
         public int Hora { get; set; }
         public int Clase { get; set; }
-        public int IdSucursal { get; set; }
         public int Cantidad { get; set; }
+        public string Cedula { get; set; }
+        public int IdSucursal { get; set; }
     }
 
 
@@ -55,10 +56,14 @@ namespace APIGymTEC.Models
                         {
                             Planilla planilla = new Planilla();
                             planilla.Id = Convert.ToInt32(rdr["Id"]);                     
-                            planilla.Nombre = rdr["Nombre"].ToString();
+                            planilla.Cargo = rdr["Cargo"].ToString();
+
                             planilla.Mensual = Convert.ToInt32(rdr["Mensual"]);
                             planilla.Hora = Convert.ToInt32(rdr["Hora"]);
                             planilla.Clase = Convert.ToInt32(rdr["Clase"]);
+
+                            planilla.Cantidad = Convert.ToInt32(rdr["Cantidad"]);
+                            planilla.Cedula = rdr["Cedula"].ToString();
                             planilla.IdSucursal = Convert.ToInt32(rdr["IdSucursal"]);
 
                             planillas.Add(planilla);
@@ -105,10 +110,14 @@ namespace APIGymTEC.Models
                         while (rdr.Read())
                         {                            
                             planilla.Id = Convert.ToInt32(rdr["Id"]);
-                            planilla.Nombre = rdr["Nombre"].ToString();
+                            planilla.Cargo = rdr["Cargo"].ToString();
+
                             planilla.Mensual = Convert.ToInt32(rdr["Mensual"]);
                             planilla.Hora = Convert.ToInt32(rdr["Hora"]);
                             planilla.Clase = Convert.ToInt32(rdr["Clase"]);
+
+                            planilla.Cantidad = Convert.ToInt32(rdr["Cantidad"]);
+                            planilla.Cedula = rdr["Cedula"].ToString();
                             planilla.IdSucursal = Convert.ToInt32(rdr["IdSucursal"]);
 
                         }
@@ -130,14 +139,16 @@ namespace APIGymTEC.Models
                 {
                     SqlCommand cmd = new SqlCommand("insertPlanilla", con);
                     cmd.CommandType = CommandType.StoredProcedure;
+                    
+                    cmd.Parameters.AddWithValue("@Cargo", planilla.Cargo);
 
-                    //cmd.Parameters.AddWithValue("@Id", planilla.Id);
-                    cmd.Parameters.AddWithValue("@Nombre", planilla.Nombre);
                     cmd.Parameters.AddWithValue("@Mensual", planilla.Mensual);
                     cmd.Parameters.AddWithValue("@Hora", planilla.Hora);
                     cmd.Parameters.AddWithValue("@Clase", planilla.Clase);
-                    cmd.Parameters.AddWithValue("@IdSucursal", planilla.IdSucursal);
 
+                    cmd.Parameters.AddWithValue("@Cantidad", planilla.Cantidad);
+                    cmd.Parameters.AddWithValue("@Cedula", planilla.Cedula);
+                    cmd.Parameters.AddWithValue("@IdSucursal", planilla.IdSucursal);
 
                     con.Open();
                     cmd.ExecuteNonQuery();
@@ -159,13 +170,16 @@ namespace APIGymTEC.Models
                     SqlCommand cmd = new SqlCommand("actualizarPlanilla", con);
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("@id", planilla.Id);
-                    cmd.Parameters.AddWithValue("@nombre", planilla.Nombre);
-                    cmd.Parameters.AddWithValue("@mensual", planilla.Mensual);
-                    cmd.Parameters.AddWithValue("@hora", planilla.Hora);
-                    cmd.Parameters.AddWithValue("@clase", planilla.Clase);
-                    cmd.Parameters.AddWithValue("@sucursal", planilla.IdSucursal);
-                    cmd.Parameters.AddWithValue("@cantidad", planilla.Cantidad);
+                    cmd.Parameters.AddWithValue("@Id", planilla.Id);
+                    cmd.Parameters.AddWithValue("@Cargo", planilla.Cargo);
+
+                    cmd.Parameters.AddWithValue("@Mensual", planilla.Mensual);
+                    cmd.Parameters.AddWithValue("@Hora", planilla.Hora);
+                    cmd.Parameters.AddWithValue("@Clase", planilla.Clase);
+
+                    cmd.Parameters.AddWithValue("@Cantidad", planilla.Cantidad);
+                    cmd.Parameters.AddWithValue("@Cedula", planilla.Cedula);
+                    cmd.Parameters.AddWithValue("@IdSucursal", planilla.IdSucursal);
 
                     con.Open();
                     cmd.ExecuteNonQuery();
