@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using APIGymTEC.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -13,72 +12,36 @@ namespace APIGymTEC.Controllers
     [ApiController]
     public class TipoMaquinaController : ControllerBase
     {
-        TipoMaquinaDataAccessLayer tipoMaquinaDataAccessLayer = null;
-        public TipoMaquinaController()
+        // GET: api/<TipoMaquinaController>
+        [HttpGet]
+        public IEnumerable<string> Get()
         {
-            tipoMaquinaDataAccessLayer = new TipoMaquinaDataAccessLayer();
+            return new string[] { "value1", "value2" };
         }
 
-
-
-        // GET api/<TipoMaquinaController>/*tipo*
-
-        [HttpGet("{tipo}")]
-        public ActionResult GetMaquina(string? tipo)
+        // GET api/<TipoMaquinaController>/5
+        [HttpGet("{id}")]
+        public string Get(int id)
         {
-            try
-            {
-                IEnumerable<TipoMaquina> tipoMaquina = (IEnumerable<TipoMaquina>)tipoMaquinaDataAccessLayer.GetTipoMaquina(tipo);
-                return Ok(tipoMaquina);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return "value";
         }
+
+        // POST api/<TipoMaquinaController>
         [HttpPost]
-        public ActionResult Post([FromBody] TipoMaquina tipo)
+        public void Post([FromBody] string value)
         {
-            try
-            {
-                tipoMaquinaDataAccessLayer.AddTipoMaquina(tipo);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
         }
 
         // PUT api/<TipoMaquinaController>/5
-        [HttpPut]
-        public ActionResult UpdateTipoMaquina( [FromBody] TipoMaquina tipo)
+        [HttpPut("{id}")]
+        public void Put(int id, [FromBody] string value)
         {
-            try
-            {
-                tipoMaquinaDataAccessLayer.UpdateTipoMaquina(tipo);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
         }
 
-        // DELETE api/<TipoMaquinaController>/tipo
-        [HttpDelete("{tipo}")]
-        public ActionResult Delete(string tipo)
+        // DELETE api/<TipoMaquinaController>/5
+        [HttpDelete("{id}")]
+        public void Delete(int id)
         {
-            try
-            {
-                tipoMaquinaDataAccessLayer.DeleteTipoMaquina(tipo);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
         }
     }
 }
