@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using APIGymTEC.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -12,19 +13,47 @@ namespace APIGymTEC.Controllers
     [ApiController]
     public class ClaseController : ControllerBase
     {
-        // GET: api/<ClaseController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        ClaseDataAccessLayer claseDataAccessLayer = null;
+        public ClaseController()
         {
-            return new string[] { "value1", "value2" };
+            claseDataAccessLayer = new ClaseDataAccessLayer();
+        }
+        
+
+        // GET api/<ClaseController>/clasePorSucursal
+        [HttpGet("clasePorSucursal/{idSucursal}")]
+        public ActionResult ClasePorSucursal(int idSucursal)
+        {
+            try
+            {
+                IEnumerable<ClaseCompleta> clases = claseDataAccessLayer.GetClasePorSucursal(idSucursal);
+                return Ok(clases);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
 
-        // GET api/<ClaseController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+
+        // GET api/<ClaseController>/clasePorClase
+        [HttpGet("clasePorClase/{tipoClase}")]
+        public ActionResult ClasePorTipo(string tipoClase)
         {
-            return "value";
+            try
+            {
+                IEnumerable<ClaseCompleta> clases = claseDataAccessLayer.GetClasePorTipo(tipoClase);
+                return Ok(clases);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
+
+
+
 
         // POST api/<ClaseController>
         [HttpPost]
