@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using APIGymTEC.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,36 +13,114 @@ namespace APIGymTEC.Controllers
     [ApiController]
     public class ProductoController : ControllerBase
     {
-        // GET: api/<ProductoController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+
+        ProductoDataAccessLayer productoDataAccessLayer = null;
+        public ProductoController()
         {
-            return new string[] { "value1", "value2" };
+            productoDataAccessLayer = new ProductoDataAccessLayer();
+        }
+
+        // GET: api/<ProductoController>
+        [HttpGet("{codigo}")]
+        public ActionResult Get(int codigo)
+        {
+            try
+            {
+                IEnumerable<Producto> producto = (IEnumerable<Producto>)productoDataAccessLayer.GetProducto(codigo);
+                return Ok(producto);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+
         }
 
         // GET api/<ProductoController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{idSucursal}")]
+        public ActionResult Getall(int idSucursal)
         {
-            return "value";
+            try
+            {
+                IEnumerable<Producto> productos = productoDataAccessLayer.GetAllProducto(idSucursal);
+                return Ok(productos);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
+
 
         // POST api/<ProductoController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult Post([FromBody] Producto producto)
         {
+            try
+            {
+                productoDataAccessLayer.AddProducto(producto);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+
         }
 
         // PUT api/<ProductoController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPost]
+        public ActionResult updateProducto([FromBody] Producto producto)
         {
+            try
+            {
+
+                productoDataAccessLayer.UpdateProducto(producto);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
+
+
+        /*
+                [HttpPost]
+                public ActionResult updateStock([FromBody] Producto producto)
+                {
+                    try
+                    {
+
+                        productoDataAccessLayer.UpdateProducto(producto);
+                        return Ok();
+                    }
+                    catch (Exception ex)
+                    {
+                        return BadRequest(ex.Message);
+                    }
+                }
+
+
+        */
 
         // DELETE api/<ProductoController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+        public ActionResult Delete(string id) {
+            try
+            {
+
+                productoDataAccessLayer.DeleteProducto(id);
+                   return Ok(); }
+
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+            
         }
     }
-}
+
