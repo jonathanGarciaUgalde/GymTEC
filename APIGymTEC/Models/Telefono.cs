@@ -27,7 +27,7 @@ namespace APIGymTEC.Models
                 {
                     SqlCommand cmd = new SqlCommand("uspSelectTelefono", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Id", "-1");
+                    cmd.Parameters.AddWithValue("@Id", -1);
 
                     con.Open();
 
@@ -141,6 +141,16 @@ namespace APIGymTEC.Models
                 throw new Exception(ex.Message);
             }
         }
+
+
+
+
+
+
+
+
+
+
 
         public void UpdateTelefono(Telefono telefono)
         {

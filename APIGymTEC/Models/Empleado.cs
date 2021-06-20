@@ -13,6 +13,11 @@ namespace APIGymTEC.Models
         public string Cedula { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public string Nombre { get; set; }
+        public string Apellido { get; set; }
+        public string Provincia { get; set; }
+        public string Canton { get; set; }
+        public string Distrito { get; set; }
         public int IdSucursal { get; set; }
     }
 
@@ -52,13 +57,16 @@ namespace APIGymTEC.Models
                             EmpleadoCargo empleadoCargo = new EmpleadoCargo();                            
                             empleadoCargo.Cedula = rdr["Cedula"].ToString();
                             empleadoCargo.Email = rdr["Email"].ToString();
+                            empleadoCargo.Nombre = rdr["Nombre"].ToString();
+                            empleadoCargo.Apellido = rdr["Apellido"].ToString();
+                            empleadoCargo.Provincia = rdr["Provincia"].ToString();
+                            empleadoCargo.Canton = rdr["Canton"].ToString();
+                            empleadoCargo.Distrito = rdr["Distrito"].ToString();
                             empleadoCargo.IdSucursal = Convert.ToInt32(rdr["IdSucursal"]);
                             
                             empleadoCargo.IdPlanilla = Convert.ToInt32(rdr["IdPlanilla"]);
-                            empleadoCargo.NombrePlanilla= rdr["NombrePlanilla"].ToString();
+                            empleadoCargo.Cargo= rdr["Cargo"].ToString();
                            
-
-
                             empleados.Add(empleadoCargo);
                         }
                     }
@@ -102,13 +110,18 @@ namespace APIGymTEC.Models
                     if (rdr.HasRows)
                     {
                         while (rdr.Read())
-                        {                            
+                        {
                             empleadoCargo.Cedula = rdr["Cedula"].ToString();
                             empleadoCargo.Email = rdr["Email"].ToString();
+                            empleadoCargo.Nombre = rdr["Nombre"].ToString();
+                            empleadoCargo.Apellido = rdr["Apellido"].ToString();
+                            empleadoCargo.Provincia = rdr["Provincia"].ToString();
+                            empleadoCargo.Canton = rdr["Canton"].ToString();
+                            empleadoCargo.Distrito = rdr["Distrito"].ToString();
                             empleadoCargo.IdSucursal = Convert.ToInt32(rdr["IdSucursal"]);
 
                             empleadoCargo.IdPlanilla = Convert.ToInt32(rdr["IdPlanilla"]);
-                            empleadoCargo.NombrePlanilla = rdr["NombrePlanilla"].ToString();
+                            empleadoCargo.Cargo = rdr["Cargo"].ToString();
                         }
                     }
                     return empleadoCargo;
@@ -133,8 +146,19 @@ namespace APIGymTEC.Models
                     cmd.Parameters.AddWithValue("@Cedula", empleadoCargo.Cedula);
                     cmd.Parameters.AddWithValue("@Email", empleadoCargo.Email);
                     cmd.Parameters.AddWithValue("@Password", empleadoCargo.Password);
-                    cmd.Parameters.AddWithValue("@IdSucursal", empleadoCargo.IdSucursal);
-                    cmd.Parameters.AddWithValue("@Cargo", empleadoCargo.IdPlanilla);
+
+                    cmd.Parameters.AddWithValue("@Nombre", empleadoCargo.Nombre);
+                    cmd.Parameters.AddWithValue("@Apellido", empleadoCargo.Apellido);
+
+                    cmd.Parameters.AddWithValue("@Provincia", empleadoCargo.Provincia);
+                    cmd.Parameters.AddWithValue("@Canton", empleadoCargo.Canton);
+                    cmd.Parameters.AddWithValue("@Distrito", empleadoCargo.Distrito);
+                    if (empleadoCargo.IdSucursal == 0)                    
+                        cmd.Parameters.AddWithValue("@IdSucursal", null);                  
+                    else                    
+                        cmd.Parameters.AddWithValue("@IdSucursal", empleadoCargo.IdSucursal);
+                    
+                    cmd.Parameters.AddWithValue("@IdPlanilla", empleadoCargo.IdPlanilla);
 
                     con.Open();
                     cmd.ExecuteNonQuery();
@@ -159,9 +183,15 @@ namespace APIGymTEC.Models
                     cmd.Parameters.AddWithValue("@Cedula", empleadoCargo.Cedula);
                     cmd.Parameters.AddWithValue("@Email", empleadoCargo.Email);
                     cmd.Parameters.AddWithValue("@Password", empleadoCargo.Password);
-                    cmd.Parameters.AddWithValue("@IdSucursal", empleadoCargo.IdSucursal);
-                    cmd.Parameters.AddWithValue("@Cargo", empleadoCargo.IdPlanilla);
-                    
+
+                    cmd.Parameters.AddWithValue("@Nombre", empleadoCargo.Nombre);
+                    cmd.Parameters.AddWithValue("@Apellido", empleadoCargo.Apellido);
+
+                    cmd.Parameters.AddWithValue("@Provincia", empleadoCargo.Provincia);
+                    cmd.Parameters.AddWithValue("@Canton", empleadoCargo.Canton);
+                    cmd.Parameters.AddWithValue("@Distrito", empleadoCargo.Distrito);
+
+                    cmd.Parameters.AddWithValue("@IdSucursal", empleadoCargo.IdSucursal);                    
 
                     con.Open();
                     cmd.ExecuteNonQuery();
