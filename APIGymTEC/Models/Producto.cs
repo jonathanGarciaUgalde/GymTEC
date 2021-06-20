@@ -59,7 +59,7 @@ namespace APIGymTEC.Models
                             prodcuto.Codigo = rdr["Codigo"].ToString();
                             prodcuto.Nombre = rdr["Nombre"].ToString();
                             prodcuto.Descripcion = rdr["Descripcion"].ToString();
-                            prodcuto.Cantidad = Convert.ToInt32(rdr["Cantidad"]);
+                            
                             prodcuto.Costo = Convert.ToInt32(rdr["Costo"]);
                             prodcuto.IdSucursal = Convert.ToInt32(rdr["IdSucursal"]);
                             productos.Add(prodcuto);
@@ -93,7 +93,6 @@ namespace APIGymTEC.Models
                     cmd.Parameters.AddWithValue("@codigo_barras", producto.Codigo);
                     cmd.Parameters.AddWithValue("@nombre ", producto.Nombre);
                     cmd.Parameters.AddWithValue("@descripcion", producto.Descripcion);
-                    cmd.Parameters.AddWithValue("@cantidad", producto.Cantidad);
                     cmd.Parameters.AddWithValue("@Costo", producto.Costo);
                     cmd.Parameters.AddWithValue("@idSucusal", producto.IdSucursal);
                     cmd.Parameters.AddWithValue("@StatementType", "INSERT");
@@ -123,8 +122,7 @@ namespace APIGymTEC.Models
                     //cmd.Parameters.AddWithValue("@Id", sucursal.Id);
 
                     cmd.Parameters.AddWithValue("@nombre ", producto.Nombre);
-                    cmd.Parameters.AddWithValue("@descripcion", producto.Descripcion);
-                    cmd.Parameters.AddWithValue("@cantidad", producto.Cantidad);
+                    cmd.Parameters.AddWithValue("@descripcion", producto.Descripcion);                    
                     cmd.Parameters.AddWithValue("@Costo", producto.Costo);
                     cmd.Parameters.AddWithValue("@StatementType", "UPDATE");
 
@@ -176,7 +174,6 @@ namespace APIGymTEC.Models
                             producto.Codigo = rdr["Codigo"].ToString();
                             producto.Nombre = rdr["Nombre"].ToString();
                             producto.Descripcion = rdr["Descripcion"].ToString();
-                            producto.Cantidad = Convert.ToInt32(rdr["Cantidad"]);
                             producto.Costo = Convert.ToInt32(rdr["Costo"]);
                             producto.IdSucursal = Convert.ToInt32(rdr["IdSucursal"]);
 
@@ -231,8 +228,7 @@ namespace APIGymTEC.Models
                         {
                             producto.Codigo = rdr["Codigo"].ToString();
                             producto.Nombre = rdr["Nombre"].ToString();
-                            producto.Descripcion = rdr["Descripcion"].ToString();
-                            producto.Cantidad = Convert.ToInt32(rdr["Cantidad"]);
+                            producto.Descripcion = rdr["Descripcion"].ToString();                            
                             producto.Costo = Convert.ToInt32(rdr["Costo"]);
                             producto.IdSucursal = Convert.ToInt32(rdr["IdSucursal"]);
                             productos.Add(producto);

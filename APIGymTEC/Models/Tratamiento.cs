@@ -20,7 +20,7 @@ namespace APIGymTEC.Models
     public class TratamientoDataAccessLayer
     {
         string connectionString = ConnectionString.CName;
-
+        /*
         public IEnumerable<Tratamiento> GetAllTratamiento()
         {
             List<Tratamiento> tratamientos = new List<Tratamiento>();
@@ -72,5 +72,6 @@ namespace APIGymTEC.Models
         {
 
         }
-    } 
+        */
+    }
 }

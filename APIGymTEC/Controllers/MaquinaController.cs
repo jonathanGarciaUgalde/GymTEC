@@ -71,7 +71,7 @@ namespace APIGymTEC.Controllers
 
         // PUT api/<MaquinaController>/5
         [HttpPut("{id}")]
-        public ActionResult UpdateMaquina(int id, [FromBody]Maquina maquina)
+        public ActionResult UpdateMaquina(int id, [FromBody] Maquina maquina)
         {
             try
             {
@@ -93,7 +93,7 @@ namespace APIGymTEC.Controllers
             {
                 Sucursal sucursal = new Sucursal();
                 maquinaDataAccessLayer.DeleteMaquina(id);
-               
+
                 return Ok();
             }
             catch (Exception ex)
