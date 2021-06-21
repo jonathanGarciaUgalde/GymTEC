@@ -1,0 +1,52 @@
+<nav class="navbar navbar-expand-lg navbar-light navbar-laravel">
+    <div class="container">
+        <a class="navbar-brand" routerLink="/">GymTEC</a>
+    </div>
+</nav>
+
+<div class="container mt-3">
+
+	<div class="card mt-5">
+		<div class="card-header">Tipo de clase</div>
+
+        <div class="card-body">
+            <form class="d-flex">
+				<input type="text" id="email_address" class="form-control me-2" name="email-address" placeholder="Tipo de clase" required autofocus [(ngModel)]="this.datosClaseXSucursal.IdSucursal">
+                <button class="btn btn-outline-success" type="submit" (click)="cargarClasesPorSucursal()" >Search</button>
+            </form>
+        </div>
+
+        <div class="card-body">
+			<table id="platosTable" border="1" class="table table-bordered table-sm">
+				<thead class="thead-light text-center">
+					<tr>
+                        <th>Id Sucursal</th>
+                        <th>Cupos libres</th>
+						<th>Dia</th>
+						<th>Hora de inicio</th>
+						<th>Hora de finalizacion</th>
+						<th>Instructor</th>
+						<th>¿Registrar?</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="text-center" *ngFor="let clase of clases; let i = index">
+						<td>{{clase.idSucursal}}</td>
+                        <td>{{clase.capacidad}}</td>
+						<td>{{clase.dia}}</td>
+						<td>{{clase.horaInicio}}</td>
+                        <td>{{clase.horaFinal}}</td>
+                        <td>{{clase.nombreEmpleado}}</td>   
+						<td> 
+							<button mat-raised-button [attr.disabled]="clase.capacidad == 0 ? true : null" class="btn btn-outline-success" mat-button (click)="registrarClase(clase)">Aceptar</button>
+						</td>	             
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+
+</div>
+
+

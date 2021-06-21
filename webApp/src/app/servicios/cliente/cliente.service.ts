@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Usuario } from '../../interfaces/usuario.interface';
+import { Clase } from '../../interfaces/clase.interface';
+import { Observable, throwError } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +12,22 @@ import { Usuario } from '../../interfaces/usuario.interface';
 export class ClienteService {
 
   url:string = "https://localhost:44318/api/";
+  urlSQLServer:string = "https://localhost:52217/api/";
 
   constructor(private http:HttpClient ) { }
+
+  /*public claseActual: Clase = {
+
+    capacidad : 0,
+    esGrupal : true,
+    dia : "",
+    horaInicio : "",
+    horaFinalizacion : "",
+    tipoClase : "",
+    empleado : "",
+    idSucursal : 0
+
+  }*/
 
   LoginCliente(email:string, pass:string){
     
@@ -44,6 +61,13 @@ export class ClienteService {
 
       });  
     
+  }
+
+  obtenerClasesPorSucursal(IdSucursal:string) : Observable<any> {
+
+    let direccion = this.urlSQLServer + "Clase/clasePorSucursal/" + IdSucursal;
+
+  	return this.http.get(direccion);
   }
 
 }
