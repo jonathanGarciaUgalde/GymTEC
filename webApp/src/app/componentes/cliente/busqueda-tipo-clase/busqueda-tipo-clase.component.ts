@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ClienteService } from '../../../servicios/cliente/cliente.service';
 import { Router} from '@angular/router';
 import { Clase } from '../../../interfaces/clase.interface';
+import { ActivatedRoute } from '@angular/router'; // Importar
 
 @Component({
   selector: 'app-busqueda-tipo-clase',
@@ -11,35 +12,51 @@ import { Clase } from '../../../interfaces/clase.interface';
 })
 export class BusquedaTipoClaseComponent implements OnInit {
 
-  constructor(private router:Router, private api:ClienteService) { }
+  cedulaCliente:string = "";
+
+  constructor(private router:Router, private api:ClienteService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.cedulaCliente = this.route.snapshot.paramMap.get("cedula")!;
   }
 
-  public clases: Clase[] = [
-    {
-      capacidad : 12,
-      esGrupal : true,
-      dia : "25/12/12",
-      horaInicio : "1:30",
-      horaFinal : "2:00",
-      nombreServicio : "Pilates",
-      nombreEmpleado : "Josue",
-      idSucursal : 4
+  public clases: Clase[] = [];
+
+  public datosClaseXTipo = {
+    TipoClase : ""
+  }
+
+  cargarClasesPorTipoClase(){
+
+    if(this.datosClaseXTipo.TipoClase != ""){
+      this.api.obtenerClasesPorTipoClase(this.datosClaseXTipo.TipoClase)
+      .subscribe(response => {
+      
+        this.clases = response;
+        
+      },(error:any)=>{
+        console.log(error);
+        });
+    }else{
+      alert("Debe ingresar un tipo de clase");
     }
-  ]
 
-  public datosClaseXSucursal = {
-    IdSucursal : ""
   }
 
-  cargarClasesPorSucursal(){
-    console.log("---");
-  }
+  registrarClase(camposClase : Clase){
+    console.log(camposClase.idClase);
 
-  registrarClase(capacidad: Clase){
-    console.log(capacidad.capacidad);
+    var IdClase:number = camposClase.idClase!;
+
+    this.api.registrarClientePorClase(IdClase, this.cedulaCliente)
+    .subscribe(response => {
     
+      console.log(response);
+      
+
+    },(error:any)=>{
+      console.log(error);
+      });
   }
 
 }

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ClienteService } from '../../../servicios/cliente/cliente.service';
 import { Router} from '@angular/router';
 import { Clase } from '../../../interfaces/clase.interface';
+import { ActivatedRoute } from '@angular/router'; // Importar
 
 @Component({
   selector: 'app-busqueda-periodo',
@@ -11,36 +12,52 @@ import { Clase } from '../../../interfaces/clase.interface';
 })
 export class BusquedaPeriodoComponent implements OnInit {
 
-  constructor(private router:Router, private api:ClienteService) { }
+  cedulaCliente:string = "";
+
+  constructor(private router:Router, private api:ClienteService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.cedulaCliente = this.route.snapshot.paramMap.get("cedula")!;
   }
 
-  public clases: Clase[] = [
-    {
-      capacidad : 7,
-      esGrupal : true,
-      dia : "05/06/2021",
-      horaInicio : "5:30",
-      horaFinal : "7:00",
-      nombreServicio : "Zumba",
-      nombreEmpleado : "Alan",
-      idSucursal : 5
+  public clases: Clase[] = [];
+
+  public datosClaseXPeriodo = {
+    PeriodoUno : "",
+    PeriodoDos : ""
+  }
+
+  cargarClasesPorPeriodo(){
+
+    if(this.datosClaseXPeriodo.PeriodoUno != "" || this.datosClaseXPeriodo.PeriodoDos != ""){
+      this.api.obtenerClasesPorPeriodo(this.datosClaseXPeriodo.PeriodoUno, this.datosClaseXPeriodo.PeriodoDos)
+      .subscribe(response => {
+      
+        this.clases = response;
+
+      },(error:any)=>{
+        console.log(error);
+        });
+    }else{
+      alert("Debe ingresar ambos periodos");
     }
-  ]
 
-  public datosClaseXSucursal = {
-    IdSucursal : "",
-    IdSucursal1 : ""
   }
 
-  cargarClasesPorSucursal(){
-    console.log("---");
-  }
+  registrarClase(camposClase : Clase){
+    console.log(camposClase.idClase);
 
-  registrarClase(capacidad: Clase){
-    console.log(capacidad.capacidad);
+    var IdClase:number = camposClase.idClase!;
+
+    this.api.registrarClientePorClase(IdClase, this.cedulaCliente)
+    .subscribe(response => {
     
+      console.log(response);
+      
+
+    },(error:any)=>{
+      console.log(error);
+      });
   }
 
 }

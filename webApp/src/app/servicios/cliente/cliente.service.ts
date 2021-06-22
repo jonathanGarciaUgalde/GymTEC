@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Usuario } from '../../interfaces/usuario.interface';
-import { Clase } from '../../interfaces/clase.interface';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -15,19 +14,6 @@ export class ClienteService {
   urlSQLServer:string = "https://localhost:52217/api/";
 
   constructor(private http:HttpClient ) { }
-
-  /*public claseActual: Clase = {
-
-    capacidad : 0,
-    esGrupal : true,
-    dia : "",
-    horaInicio : "",
-    horaFinalizacion : "",
-    tipoClase : "",
-    empleado : "",
-    idSucursal : 0
-
-  }*/
 
   LoginCliente(email:string, pass:string){
     
@@ -63,11 +49,70 @@ export class ClienteService {
     
   }
 
-  obtenerClasesPorSucursal(IdSucursal:string) : Observable<any> {
+  obtenerActividadesProximas(CedulaCliente:string) : Observable<any> {
 
-    let direccion = this.urlSQLServer + "Clase/clasePorSucursal/" + IdSucursal;
+    let direccion = this.urlSQLServer + "ClientePorClase/ProximasActividades/" + CedulaCliente;
 
   	return this.http.get(direccion);
+  }
+
+  obtenerClasesPorSucursal(IdSucursal:string) : Observable<any> {
+
+    let direccion = this.urlSQLServer + "Clase/ClasePorSucursal/" + IdSucursal;
+
+  	return this.http.get(direccion);
+  }
+
+  obtenerClasesPorTipoClase(TipoClase:string) : Observable<any> {
+
+    let direccion = this.urlSQLServer + "Clase/ClasePorTipo";
+
+    return this.http.post(direccion,
+      {
+
+        Id : 0,
+        Nombre : TipoClase,
+        Descripcion : "",
+        IdSucursal : 0
+
+      }); 
+
+  }
+  
+  obtenerClasesPorPeriodo(PeriodoUno:string, PeriodoDos:string) : Observable<any> {
+
+    let direccion = this.urlSQLServer + "Clase/ClasePorPeriodo";
+
+    return this.http.post(direccion,
+      {
+
+          Id : 0,
+          Capacidad : 0,
+          EsGrupal : true,
+          Dia : "",
+          HoraInicio : PeriodoUno,
+          HoraFinal : PeriodoDos,
+          Tipo : 0,
+          Empleado : "",
+          IdSucursal : 0
+    
+      }); 
+
+  }
+
+  registrarClientePorClase(IdClase:number, CedulaCliente:string) : Observable<any> {
+
+    let direccion = this.urlSQLServer + "ClientePorClase";
+
+    return this.http.post(direccion,
+      {
+
+        Id : 0,
+        Clase : IdClase,
+        Cliente : CedulaCliente
+
+      }); 
+
   }
 
 }

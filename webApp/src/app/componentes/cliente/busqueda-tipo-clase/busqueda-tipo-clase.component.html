@@ -11,8 +11,8 @@
 
         <div class="card-body">
             <form class="d-flex">
-				<input type="text" id="email_address" class="form-control me-2" name="email-address" placeholder="Tipo de clase" required autofocus [(ngModel)]="this.datosClaseXSucursal.IdSucursal">
-                <button class="btn btn-outline-success" type="submit" (click)="cargarClasesPorSucursal()" >Search</button>
+				<input type="text" id="email_address" class="form-control me-2" name="email-address" placeholder="Tipo de clase" required autofocus [(ngModel)]="this.datosClaseXTipo.TipoClase">
+                <button class="btn btn-outline-success" type="submit" (click)="cargarClasesPorTipoClase()" >Search</button>
             </form>
         </div>
 

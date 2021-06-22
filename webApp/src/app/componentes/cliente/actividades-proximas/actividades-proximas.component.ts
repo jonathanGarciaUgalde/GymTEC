@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ClienteService } from '../../../servicios/cliente/cliente.service';
 import {Router} from '@angular/router';
 import { Clase } from '../../../interfaces/clase.interface';
+import { ActivatedRoute } from '@angular/router'; // Importar
 
 @Component({
   selector: 'app-actividades-proximas',
@@ -11,24 +12,27 @@ import { Clase } from '../../../interfaces/clase.interface';
 })
 export class ActividadesProximasComponent implements OnInit {
 
-  constructor(private router:Router, private api:ClienteService) { }
+  constructor(private router:Router, private api:ClienteService, private route: ActivatedRoute) { 
+  }
+
+  ngOnInit(): void {
+    let cedulaCliente:string = this.route.snapshot.paramMap.get("cedula")!;
+    this.cargarActividadesProximas(cedulaCliente); 
+  }
 
   public clases: Clase[] = [];
 
-  /*clases: Clase[] = [
-    {
-      capacidad : 0,
-      esGrupal : true,
-      dia : "10/10/10",
-      horaInicio : "3:00pm",
-      horaFinalizacion : "4:00pm",
-      tipoClase : "Indoor Cycling",
-      empleado : "Javier Soto",
-      idSucursal : 3
-    }
-  ]*/
+  cargarActividadesProximas(correoCliente:string){
 
-  ngOnInit(): void {
+    this.api.obtenerActividadesProximas(correoCliente)
+    .subscribe(response => {
+
+      this.clases = response;
+      
+    },(error:any)=>{
+      console.log(error);
+      });
+
   }
 
 }

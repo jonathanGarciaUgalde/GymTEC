@@ -1,4 +1,5 @@
 export interface Clase {
+	idClase?: number,
 	capacidad?: number,
 	esGrupal?: boolean,
 	dia?: string,

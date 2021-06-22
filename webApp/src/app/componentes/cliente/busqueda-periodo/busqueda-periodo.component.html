@@ -11,9 +11,9 @@
 
         <div class="card-body">
             <form class="d-flex">
-				<input type="text" id="email_address" class="form-control me-2" name="email-address" placeholder="Periodo uno" required autofocus [(ngModel)]="this.datosClaseXSucursal.IdSucursal">
-                <input type="text" id="email_address" class="form-control me-2" name="email-address" placeholder="Periodo dos" required autofocus [(ngModel)]="this.datosClaseXSucursal.IdSucursal1">
-                <button class="btn btn-outline-success" type="submit" (click)="cargarClasesPorSucursal()" >Search</button>
+				<input type="text" id="email_address" class="form-control me-2" name="email-address" placeholder="Periodo uno" required autofocus [(ngModel)]="this.datosClaseXPeriodo.PeriodoUno">
+                <input type="text" id="email_address" class="form-control me-2" name="email-address" placeholder="Periodo dos" required autofocus [(ngModel)]="this.datosClaseXPeriodo.PeriodoDos">
+                <button class="btn btn-outline-success" type="submit" (click)="cargarClasesPorPeriodo()" >Search</button>
             </form>
         </div>
 

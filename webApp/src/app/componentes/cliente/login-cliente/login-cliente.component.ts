@@ -33,8 +33,9 @@ export class LoginClienteComponent implements OnInit {
   		localStorage.setItem("email-cliente", this.datosUsuario.Email);
       localStorage.setItem("pass-cliente", this.datosUsuario.Password);
   		
-      if (response === true){
-        this.router.navigate(["/actividades-proximas"]);
+      if (response !== null){
+        var cedulaCliente = response.toString();
+        this.router.navigate(["/actividades-proximas", { cedula: cedulaCliente }]);
       }else{
         alert("Usuario o contraseña incorrecta, intente de nuevo");
       }
@@ -44,6 +45,5 @@ export class LoginClienteComponent implements OnInit {
         this.datosUsuario.Password = "";
       });
   }
-
 
 }

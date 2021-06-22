@@ -8,8 +8,7 @@
 			<table id="platosTable" border="1" class="table table-bordered table-sm">
 				<thead class="thead-light text-center">
 					<tr>
-                        <th>Tipo de clase</th>
-                        <th>Grupal</th>
+                        <th>Clase</th>
 						<th>Dia</th>
 						<th>Hora de inicio</th>
 						<th>Hora de finalizacion</th>
@@ -19,8 +18,7 @@
 				</thead>
 				<tbody>
 					<tr class="text-center" *ngFor="let clase of clases; let i = index">
-						<td>{{clase.nombreServicio}}</td>
-                        <td>{{!clase.esGrupal ? 'Si' : 'No'}}</td> 
+						<td>{{clase.nombreServicio}}</td> 
 						<td>{{clase.dia}}</td>
 						<td>{{clase.horaInicio}}</td>
                         <td>{{clase.horaFinal}}</td>

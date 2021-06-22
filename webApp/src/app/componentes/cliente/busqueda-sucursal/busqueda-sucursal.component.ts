@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ClienteService } from '../../../servicios/cliente/cliente.service';
 import { Router} from '@angular/router';
 import { Clase } from '../../../interfaces/clase.interface';
+import { ActivatedRoute } from '@angular/router'; // Importar
 
 @Component({
   selector: 'app-busqueda-sucursal',
@@ -11,9 +12,12 @@ import { Clase } from '../../../interfaces/clase.interface';
 })
 export class BusquedaSucursalComponent implements OnInit {
 
-  constructor(private router:Router, private api:ClienteService) { }
+  cedulaCliente:string = "";
+
+  constructor(private router:Router, private api:ClienteService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.cedulaCliente = this.route.snapshot.paramMap.get("cedula")!;
   }
 
   public clases: Clase[] = [];
@@ -29,9 +33,6 @@ export class BusquedaSucursalComponent implements OnInit {
       .subscribe(response => {
       
         this.clases = response;
-        console.log(response[0].capacidad);
-        console.log(response.length);
-        
 
       },(error:any)=>{
         console.log(error);
@@ -42,9 +43,20 @@ export class BusquedaSucursalComponent implements OnInit {
 
   }
 
-  registrarClase(capacidad: Clase){
-    console.log(capacidad.capacidad);
+  registrarClase(camposClase : Clase){
+    console.log(camposClase.idClase);
+
+    var IdClase:number = camposClase.idClase!;
+
+    this.api.registrarClientePorClase(IdClase, this.cedulaCliente)
+    .subscribe(response => {
     
+      console.log(response);
+      
+
+    },(error:any)=>{
+      console.log(error);
+      });
   }
 
 }
