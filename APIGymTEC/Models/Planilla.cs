@@ -131,6 +131,58 @@ namespace APIGymTEC.Models
             }
         }
 
+        public IEnumerable<CalculoPlanilla> GetCalculoPlanilla(string cargo) 
+        {
+            List<CalculoPlanilla> planillas = new List<CalculoPlanilla>();
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    SqlCommand cmd = new SqlCommand("planilla", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Cargo", cargo);
+
+                    con.Open();
+
+                    SqlDataReader rdr = null;
+
+                    try
+                    {
+                        rdr = cmd.ExecuteReader();
+                    }
+                    catch (SqlException ex)
+                    {
+                        throw new Exception(ex.Message);
+                    }
+
+
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            CalculoPlanilla planilla = new CalculoPlanilla();
+
+                            planilla.Monto = Convert.ToInt32(rdr["Monto"]);
+
+
+                            planillas.Add(planilla);
+                        }
+                    }
+
+                    rdr.Close();
+                    con.Close();
+                    return planillas;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+
+
         public void AddPlanilla(Planilla planilla)
         {
             try

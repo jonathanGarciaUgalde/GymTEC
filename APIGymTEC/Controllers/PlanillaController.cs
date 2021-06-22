@@ -27,7 +27,7 @@ namespace APIGymTEC.Controllers
         {
             try
             {
-                IEnumerable<Planilla> planillas= planillaDataAccessLayer.GetAllPlanilla();
+                IEnumerable<Planilla> planillas = planillaDataAccessLayer.GetAllPlanilla();
                 return Ok(planillas);
             }
             catch (Exception ex)
@@ -42,8 +42,23 @@ namespace APIGymTEC.Controllers
         {
             try
             {
-                Planilla planilla= planillaDataAccessLayer.GetPlanilla(id);
+                Planilla planilla = planillaDataAccessLayer.GetPlanilla(id);
                 return Ok(planilla);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        // GET api/planilla/<PlanillaController>/(admin|instructor|dependientedetienda|dependientedespa)
+        [HttpGet("planilla/{cargo}")]
+        public ActionResult GetCalculoPlanilla(string cargo)
+        {
+            try
+            {
+                IEnumerable<CalculoPlanilla> planillas = planillaDataAccessLayer.GetCalculoPlanilla(cargo);
+                return Ok(planillas);
             }
             catch (Exception ex)
             {
@@ -99,4 +114,3 @@ namespace APIGymTEC.Controllers
         }
     }
 }
-    
