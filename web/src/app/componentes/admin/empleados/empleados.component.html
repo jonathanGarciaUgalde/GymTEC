@@ -1,3 +1,98 @@
 <app-nabvar></app-nabvar>
 
-<p>empleados works!</p>
+<div class="container mt-3">
+	<div class="card">
+		<div class="card-header">Gestionar Empleados</div>
+		<div class="card-body">
+			<table id="empleadosTable" border="1" class="table table-bordered table-lg">
+				<thead class="thead-light text-center">
+					<tr>
+						<th>Cedula</th>
+						<th>Email</th>
+						<th>Nombre</th>
+						<th>Ubicacion</th>
+						<th>Sucursal</th>
+						<th>Planilla</th>
+						<th>Cargo</th>
+						<th>Acciones</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="text-center" *ngFor="let empleado of empleados; let i = index">
+						<td>{{empleado.cedula}}</td>
+						<td>{{empleado.email}}</td>
+						<td>{{empleado.nombre}} {{empleado.apellido}}</td>
+						<td>{{empleado.distrito}}, {{empleado.canton}}, {{empleado.provincia}}</td>
+						<td>{{empleado.idSucursal}}</td>
+						<td>{{empleado.idPlanilla}}</td>
+						<td>{{empleado.cargo}}</td> 
+						<td> 
+							<a class="btn btn-light" (click)="actualizarEmpleado(mymodal,empleado)"> Editar </a> 
+							<a (click)="eliminarEmpleado(empleado)" class="btn btn-danger ml-4"> Eliminar </a>
+						</td>			
+					</tr>
+				</tbody>
+			</table>
+			<button type="submit" class="btn btn-success" (click)="crearNuevo(mymodal)">
+				Crear nuevo
+			</button>
+		</div>
+	</div>
+</div>
+
+
+<ng-template #mymodal let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Información</h4>
+		<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+			<span aria-hidden="true">×</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<form class="form-empleado" #formEmpleado="ngForm" (ngSubmit)="guardarDispositivo(formEmpleado)">
+			<div class="form-group">
+				<label *ngIf="!this.actualizar" for="cedula">Cedula</label>
+				<input *ngIf="!this.actualizar" type="text" id="cedula" name="cedula" class="form-control" placeholder="Cedula" [(ngModel)]="this.empleadoActual.cedula">
+			</div>
+			<div class="form-group">
+				<label for="email">Email</label>
+				<input type="text" id="email" name="email" class="form-control" placeholder="Email" [(ngModel)]="this.empleadoActual.email">
+			</div>
+			<div class="form-group">
+				<label for="password">Contraseña</label>
+				<input type="password" id="password" name="password" class="form-control" placeholder="Password" [(ngModel)]="this.empleadoActual.password">
+			</div>
+			<div class="form-group">
+				<label for="nombre">Nombre</label>
+				<input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre" [(ngModel)]="this.empleadoActual.nombre">
+			</div>
+			<div class="form-group">
+				<label for="apellido">Apellido</label>
+				<input type="text" id="apellido" name="apellido" class="form-control" placeholder="Apellido" [(ngModel)]="this.empleadoActual.apellido">
+			</div>
+			<div class="form-group">
+				<label for="canton">Canton</label>
+				<input type="text" id="canton" name="canton" class="form-control" placeholder="Canton" [(ngModel)]="this.empleadoActual.canton">
+			</div>
+			<div class="form-group">
+				<label for="distrito">Distrito</label>
+				<input type="text" id="distrito" name="distrito" class="form-control" placeholder="Distrito" [(ngModel)]="this.empleadoActual.distrito">
+			</div>
+			<div class="form-group">
+				<label for="sucursal">Sucursal</label>
+				<select [(ngModel)]="this.empleadoActual.idSucursal" (change)="cargarPlanillasDisponibles()" name="sucursal" id="sucursal" class="form-control" >
+					<option *ngFor="let sucursal of this.sucursalesDisponibles; let i = index" value={{sucursal}}>{{sucursal}}</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="planilla">Planilla</label>
+				<select [(ngModel)]="this.empleadoActual.idPlanilla" name="planilla" id="planilla" class="form-control" >
+					<option *ngFor="let planilla of this.planillasDisponibles" value={{planilla.id}}>{{planilla.id}}</option>
+				</select>
+			</div>       
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-light" (click)="guardarEmpleado()">Guardar</button>
+	</div>
+</ng-template>

@@ -1,3 +1,83 @@
 <app-nabvar></app-nabvar>
 
-<p>sucursales works!</p>
+<div class="container mt-3">
+	<div class="row justify-content-center">
+		<div class="col-sm-auto" *ngFor="let sucursal of sucursales; let i = index">
+			<div class="card mt-3 mb-2"  style="width: 18rem;">
+				<div class="card-body">
+					<h5 class="card-title">{{sucursal.nombre}} - {{sucursal.id}}</h5>
+					<hr>
+					<b class="card-text">Capacidad</b>
+					<p clas="card-text">{{sucursal.capacidad}}</p>
+					<b class="card-text">Provincia</b>
+					<p class="card-text">{{sucursal.provincia}}</p>
+					<b class="card-text">Canton</b>
+					<p class="card-text"> {{sucursal.canton}}</p>
+					<b class="card-text">Distrito</b>
+					<p class="card-text"> {{sucursal.distrito}}</p>
+					<b class="card-text">Teléfonos</b>
+					<div *ngFor="let telefono of telefonos; let i = index">
+						<p class="card-text" *ngIf="telefono.id == sucursal.id">{{telefono.tel}}</p>
+					</div>
+					<p></p>
+					<b class="card-text">Tienda</b>
+					<p class="card-text"> {{sucursal.tienda ? 'Sí' : 'No'}}</p>
+					<b class="card-text">Spa</b>
+					<p class="card-text"> {{sucursal.spa ? 'Sí' : 'No'}}</p>
+					<hr>
+					<a class="btn btn-primary" (click)="actualizarSucursal(mymodal,sucursal)">Editar</a>
+					<p></p>
+					<a class="btn btn-danger ml-4" (click)="eliminarSucursal(sucursal)"> Eliminar </a>
+					<hr>
+					<a class="btn btn-light"  *ngIf="!sucursal.tienda" (click)="activarTienda(sucursal)">Activar tienda</a>
+					<p></p>
+					<a class="btn btn-light"  *ngIf="!sucursal.spa" (click)="activarSpa(sucursal)">Activar spa</a>
+				</div>
+			</div>
+		</div>
+	</div>	
+
+	<button type="submit" class="btn btn-success" (click)="crearNuevo(mymodal)">Crear nuevo </button>
+	
+</div>
+
+
+<ng-template #mymodal let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Informacion</h4>
+		<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+			<span aria-hidden="true">×</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<form class="form-sucursal" #formSucursal="ngForm" (ngSubmit)="guardarSucursal(formSucursal)">
+			<div class="form-group"> 
+				<label for="nombre">Nombre</label>
+				<input type="text" id="nombre" name="nombre" class="form-control" [(ngModel)]="this.sucursalActual.nombre">
+			</div>
+			<div class="form-group"> 
+				<label for="capacidad">Capacidad</label>
+				<input type="number" id="capacidad" name="capacidad" class="form-control" [(ngModel)]="this.sucursalActual.capacidad">
+			</div>
+			<div class="form-group"> 
+				<label for="provincia">Provincia</label>
+				<input type="text" id="provincia" name="provincia" class="form-control" [(ngModel)]="this.sucursalActual.provincia">
+			</div>
+			<div class="form-group"> 
+				<label for="canton">Cantón</label>
+				<input type="text" id="canton" name="canton" class="form-control" [(ngModel)]="this.sucursalActual.canton">
+			</div>
+			<div class="form-group"> 
+				<label for="distrito">Distrito</label>
+				<input type="text" id="distrito" name="distrito" class="form-control" [(ngModel)]="this.sucursalActual.distrito">
+			</div>
+			<div class="form-group"> 
+				<label for="telefonos">Telefonos</label>
+				<textarea type="text" id="telefonos" name="telefonos" class="form-control" [(ngModel)]="this.telefonosActual"></textarea>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-light" (click)="guardarSucursal(formSucursal)">Guardar</button>
+	</div>
+</ng-template>

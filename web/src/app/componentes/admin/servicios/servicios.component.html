@@ -1,3 +1,64 @@
 <app-nabvar></app-nabvar>
 
-<p>servicios works!</p>
+<div class="container mt-3">
+	<div class="card">
+		<div class="card-header">Gestionar Servicios</div>
+		<div class="card-body">
+			<table id="serviciosTable" border="1" class="table table-bordered table-lg">
+				<thead class="thead-light text-center">
+					<tr>
+						<th>ID</th>
+						<th>Nombre</th>
+						<th>Descripción</th>
+            			<th>Sucursal</th>
+						<th>Acciones</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="text-center" *ngFor="let servicio of servicios; let i = index">
+						<td>{{servicio.id}}</td>
+						<td>{{servicio.nombre}}</td>
+						<td>{{servicio.descripcion}}</td>
+            			<td>{{servicio.idSucursal}}</td> 
+						<td> 
+							<a class="btn btn-light" (click)="actualizarServicio(mymodal,servicio)"> Editar </a> 
+							<a (click)="eliminarServicio(servicio)" class="btn btn-danger ml-4"> Eliminar </a>
+						</td>			
+					</tr>
+				</tbody>
+			</table>
+			<button type="submit" class="btn btn-success" (click)="crearNuevo(mymodal)">
+				Crear nuevo
+			</button>
+		</div>
+	</div>
+</div>
+
+   
+<ng-template #mymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Información</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-servicio" #formServicio="ngForm" (ngSubmit)="guardarDispositivo(formServicio)">
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre" [(ngModel)]="this.servicioActual.nombre">
+          </div>
+          <div class="form-group">
+            <label for="descripcion">Descripción</label>
+            <input type="text" id="descripcion" name="descripcion" class="form-control" placeholder="Descripción" [(ngModel)]="this.servicioActual.descripcion">
+          </div>
+          <div class="form-group">
+            <label for="idSucursal">Sucursal</label>
+            <input type="number" id="idSucursal" name="idSucursal" class="form-control" placeholder="Sucursal" [(ngModel)]="this.servicioActual.idSucursal">
+          </div>         
+        </form>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-light" (click)="guardarServicio(formServicio)">Guardar</button>
+  </div>
+</ng-template>

@@ -1,3 +1,72 @@
 <app-nabvar></app-nabvar>
 
-<p>productos !</p>
+<div class="container mt-3">
+	<div class="card">
+		<div class="card-header">Gestionar productos</div>
+		<div class="card-body">
+			<table id="productosTable" border="1" class="table table-bordered table-lg">
+				<thead class="thead-light text-center">
+					<tr>
+						<th>Codigo de barras</th>
+						<th>Nombre</th>
+						<th>Descripción</th>
+						<th>Costo</th>
+            			<th>Sucursal</th>
+						<th>Acciones</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="text-center" *ngFor="let producto of productos; let i = index">
+						<td>{{producto.codigo}}</td>
+						<td>{{producto.nombre}}</td>
+						<td>{{producto.descripcion}}</td>
+						<td>{{producto.costo}}</td>	
+            			<td>{{producto.idSucursal==0 ? 'No tiene' : producto.idSucursal}}</td> 
+						<td> 
+							<a class="btn btn-light" (click)="actualizarProducto(mymodal,producto)"> Editar </a> 
+							<a (click)="eliminarProducto(producto)" class="btn btn-danger ml-4"> Eliminar </a>
+						</td>			
+					</tr>
+				</tbody>
+			</table>
+			<button type="submit" class="btn btn-success" (click)="crearNuevo(mymodal)">
+				Crear nuevo
+			</button>
+		</div>
+	</div>
+</div>
+
+   
+<ng-template #mymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Información</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-producto" #formProducto="ngForm" (ngSubmit)="guardarDispositivo(formProducto)">
+          <label *ngIf="!this.actualizar" for="codigo">Codigo de barras</label>
+          <input *ngIf="!this.actualizar" type="text" id="codigo" name="codigo" class="form-control" placeholder="Codigo de barras" [(ngModel)]="this.productoActual.codigo">
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre" [(ngModel)]="this.productoActual.nombre">
+          </div>
+          <div class="form-group">
+            <label for="descripcion">Descripción</label>
+            <input type="text" id="descripcion" name="descripcion" class="form-control" placeholder="Descripción" [(ngModel)]="this.productoActual.descripcion">
+          </div>
+          <div class="form-group">
+            <label for="costo">Costo</label>
+            <input type="number" id="costo" name="costo" class="form-control" placeholder="Costo" [(ngModel)]="this.productoActual.costo">
+          </div>
+          <div class="form-group">
+            <label for="idSucursal">Sucursal</label>
+            <input type="number" id="idSucursal" name="idSucursal" class="form-control" placeholder="Sucursal" [(ngModel)]="this.productoActual.idSucursal">
+          </div>         
+        </form>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-light" (click)="guardarProducto(formProducto)">Guardar</button>
+  </div>
+</ng-template>

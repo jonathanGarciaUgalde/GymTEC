@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { HttpClientModule } from '@angular/common/http'; 
+
 import {FormsModule} from '@angular/forms';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
@@ -39,7 +41,8 @@ import { CalendarioComponent } from './componentes/admin/calendario/calendario.c
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
+    AppRoutingModule,    
+    HttpClientModule,
     FormsModule
   ],
   providers: [],

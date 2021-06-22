@@ -1,3 +1,81 @@
 <app-nabvar></app-nabvar>
 
-<p>planillas works!</p>
+<div class="container mt-3">
+	<div class="row justify-content-center">			
+		<div class="card-body">
+			<table id="planillaTable" border="1" class="table table-bordered table-lg">
+				<thead class="thead-light text-center">
+					<tr>
+						<th>Id</th>
+						<th>Cargo</th>
+						<th>Mensual</th>
+						<th>Hora</th>
+						<th>Clase</th>
+						<th>Sucursal</th>
+						<th>Empleado asociado</th>
+						<th>Acciones</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="text-center" *ngFor="let planilla of planillas; let i = index">
+						<td>{{planilla.id}}</td>
+						<td>{{planilla.cargo}}</td>
+						<td>{{planilla.mensual}}</td>
+						<td>{{planilla.hora}}</td>
+						<td>{{planilla.clase}}</td>	
+						<td>{{planilla.idSucursal}}</td>
+						<td>{{planilla.cedula =='' ? 'No tiene' : planilla.cedula}}</td> 
+						<td> 
+							<a class="btn btn-light" (click)="actualizarPlanilla(mymodal,planilla)"> Editar </a>
+							<a (click)="eliminarPlanilla(planilla)" class="btn btn-danger ml-4"> Eliminar </a>
+						</td>			
+					</tr>
+				</tbody>
+			</table>
+		</div>		
+	</div>	
+
+	<button type="submit" class="btn btn-success" (click)="crearNuevo(mymodal)">Crear nuevo </button>
+	
+</div>
+
+
+<ng-template #mymodal let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Informacion</h4>
+		<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+			<span aria-hidden="true">×</span>
+		</button>
+	</div>
+	<div class="modal-body">
+		<form class="form-planilla" #formPlanilla="ngForm" (ngSubmit)="guardarPlanilla(formplanilla)">
+			<div class="form-group"> 
+				<label for="cargo">Cargo</label>
+				<input type="text" id="cargo" name="cargo" class="form-control" [(ngModel)]="this.planillaActual.cargo">
+			</div>
+			<div class="form-group"> 
+				<label for="mensual">Mensual</label>
+				<input type="number" id="mensual" name="mensual" class="form-control" [(ngModel)]="this.planillaActual.mensual">
+			</div>
+			<div class="form-group"> 
+				<label for="hora">Hora</label>
+				<input type="number" id="hora" name="hora" class="form-control" [(ngModel)]="this.planillaActual.hora">
+			</div>
+			<div class="form-group"> 
+				<label for="clase">Clase</label>
+				<input type="number" id="clase" name="clase" class="form-control" [(ngModel)]="this.planillaActual.clase">
+			</div>
+			<div class="form-group"> 
+				<label for="cedula">Cedula</label>
+				<input type="text" id="cedula" name="cedula" class="form-control" [(ngModel)]="this.planillaActual.cedula">
+			</div>
+			<div *ngIf="!this.actualizar" class="form-group"> 
+				<label for="idSucursal">ID de la sucursal</label>
+				<input type="number" id="idSucursal" name="idSucursal" class="form-control" [(ngModel)]="this.planillaActual.idSucursal">
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button type="submit" class="btn btn-light" (click)="guardarPlanilla(formPlanilla)">Guardar</button>
+	</div>
+</ng-template>
