@@ -1,0 +1,95 @@
+<nav class="navbar navbar-expand-lg navbar-light navbar-laravel">
+    <div class="container">
+        <a class="navbar-brand" routerLink="/">GymTEC</a>
+    </div>
+</nav>
+
+<div class="login-form">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">Registrarse</div>
+                    <div class="card-body">
+                            <div class="form-group row">
+                                <label for="nombre" class="col-md-4 col-form-label">Nombre</label>
+                                <div class="col-md-8">
+                                    <input [(ngModel)]="datosUsuario.nombre" type="text" id="nombre" class="form-control" name="nombre" required autofocus>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mt-2">
+                                <label for="apellidos" class="col-md-4 col-form-label text-md-right">Apellidos</label>
+                                <div class="col-md-8">
+                                    <input [(ngModel)]="datosUsuario.apellidos" type="text" id="apellidos" class="form-control" name="apellidos" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mt-2">
+                                <label for="cedula" class="col-md-4 col-form-label text-md-right">Cédula</label>
+                                <div class="col-md-8">
+                                    <input [(ngModel)]="datosUsuario.cedula" type="number" id="cedula" class="form-control" name="apellidos" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mt-2">
+                                <label for="edad" class="col-md-4 col-form-label text-md-right">Edad</label>
+                                <div class="col-md-8">
+                                    <input [(ngModel)]="datosUsuario.edad" type="number" id="edad" class="form-control" name="apellidos" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mt-2">
+                                <label for="fecha_nacimiento" class="col-md-4 col-form-label text-md-right">Fecha de nacimiento</label>
+                                <div class="col-md-8">
+                                    <input [(ngModel)]="datosUsuario.fecha_nacimiento" type="text" id="fecha_nacimiento" class="form-control" name="apellidos" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mt-2">
+                                <label for="peso" class="col-md-4 col-form-label text-md-right">Peso</label>
+                                <div class="col-md-8">
+                                    <input [(ngModel)]="datosUsuario.peso" type="number" id="peso" class="form-control" name="apellidos" required>
+                                </div>
+                            </div>
+                             
+                            <div class="form-group row mt-2">
+                                <label for="imc" class="col-md-4 col-form-label text-md-right">IMC</label>
+                                <div class="col-md-8">
+                                    <input [(ngModel)]="datosUsuario.imc" type="number" id="imc" class="form-control" name="apellidos" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group row mt-2">
+                                <label for="direccion" class="col-md-4 col-form-label text-md-right">Direccion</label>
+                                <div class="col-md-8">
+                                    <input [(ngModel)]="datosUsuario.direccion" type="text" id="direccion" class="form-control" name="apellidos" required>
+                                </div>
+                            </div>
+
+                             <div class="form-group row mt-2">
+                                <label for="email" class="col-md-4 col-form-label text-md-right">Email</label>
+                                <div class="col-md-8">
+                                    <input [(ngModel)]="datosUsuario.email" type="text" id="email" class="form-control" name="email" required>
+                                </div>
+                            </div>
+
+                             <div class="form-group row mt-2">
+                                <label for="contrasena" class="col-md-4 col-form-label text-md-right">Contraseña</label>
+                                <div class="col-md-8">
+                                    <input [(ngModel)]="datosUsuario.contrasena" type="password" id="contrasena" class="form-control" name="contrasena" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 offset-md-6 mt-2">
+                                <button type="submit" class="btn btn-light " (click)="registrar()">
+                                    Registrarse
+                                </button>                                
+                            </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+</div>

@@ -13,7 +13,27 @@ import { ProductosComponent } from './componentes/admin/productos/productos.comp
 import { GimnasioComponent } from './componentes/admin/gimnasio/gimnasio.component';
 import { CalendarioComponent } from './componentes/admin/calendario/calendario.component';
 
+// Importar(injectar) componentes para manejar las rutas
+
+import { LoginClienteComponent } from './componentes/cliente/login-cliente/login-cliente.component';
+import { RegistrarComponent } from './componentes/cliente/registrar/registrar.component';
+import { ActividadesProximasComponent } from './componentes/cliente/actividades-proximas/actividades-proximas.component';
+import { NavbarClienteComponent } from './componentes/cliente/navbar-cliente/navbar-cliente.component';
+import { BusquedaSucursalComponent } from './componentes/cliente/busqueda-sucursal/busqueda-sucursal.component';
+import { BusquedaTipoClaseComponent } from './componentes/cliente/busqueda-tipo-clase/busqueda-tipo-clase.component';
+import { BusquedaPeriodoComponent } from './componentes/cliente/busqueda-periodo/busqueda-periodo.component';
+
 const routes: Routes = [
+  // Rutas Cliente
+  {path: '', redirectTo:'login', pathMatch:'full'}, // ruta por defecto
+  {path:'login', component:LoginClienteComponent},
+  {path:'registrar', component:RegistrarComponent},
+  {path:'actividades-proximas', component:ActividadesProximasComponent},
+  {path:'busqueda-sucursal', component:BusquedaSucursalComponent},
+  {path:'busqueda-tipo-clase', component:BusquedaTipoClaseComponent},
+  {path:'busqueda-periodo', component:BusquedaPeriodoComponent},
+
+  // Rutas Admin
 {path:'admin', component: LoginComponent},
 {path:'admin/sucursales', component: SucursalesComponent},
 {path:'admin/tratamientos', component: TratamientosComponent},
@@ -35,3 +55,6 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+
+// Exportar todos los componentes que estan en router
+export const routingComponents = [LoginClienteComponent, RegistrarComponent, NavbarClienteComponent, ActividadesProximasComponent, BusquedaSucursalComponent, BusquedaTipoClaseComponent, BusquedaPeriodoComponent]
