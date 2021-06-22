@@ -5,7 +5,6 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
-using APIGymTEC.Utility;
 
 namespace APIGymTEC.Models
 {
@@ -13,7 +12,7 @@ namespace APIGymTEC.Models
     {
         public string Codigo { get; set; }
         public string Nombre { get; set; }
-        public string Descripcion { get; set; }        
+        public string Descripcion { get; set; }
         public int Costo { get; set; }
         public int IdSucursal { get; set; }
     }
@@ -59,7 +58,6 @@ namespace APIGymTEC.Models
                             prodcuto.Codigo = rdr["Codigo"].ToString();
                             prodcuto.Nombre = rdr["Nombre"].ToString();
                             prodcuto.Descripcion = rdr["Descripcion"].ToString();
-                            
                             prodcuto.Costo = Convert.ToInt32(rdr["Costo"]);
                             prodcuto.IdSucursal = Convert.ToInt32(rdr["IdSucursal"]);
                             productos.Add(prodcuto);
@@ -94,7 +92,15 @@ namespace APIGymTEC.Models
                     cmd.Parameters.AddWithValue("@nombre ", producto.Nombre);
                     cmd.Parameters.AddWithValue("@descripcion", producto.Descripcion);
                     cmd.Parameters.AddWithValue("@Costo", producto.Costo);
-                    cmd.Parameters.AddWithValue("@idSucusal", producto.IdSucursal);
+                    if (producto.IdSucursal == 0)
+                    {
+                        cmd.Parameters.AddWithValue("@idSucursal", null);
+                    }
+                    else
+                    {
+                        cmd.Parameters.AddWithValue("@idSucursal", producto.IdSucursal);
+                    }
+
                     cmd.Parameters.AddWithValue("@StatementType", "INSERT");
 
                     con.Open();
@@ -118,12 +124,12 @@ namespace APIGymTEC.Models
                 {
                     SqlCommand cmd = new SqlCommand("uspCUDProducto", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    //@codigo_barras ,@nombre  ,@descripcion,@cantidad ,@costo ,@idSucursal 
-                    //cmd.Parameters.AddWithValue("@Id", sucursal.Id);
 
-                    cmd.Parameters.AddWithValue("@nombre ", producto.Nombre);
-                    cmd.Parameters.AddWithValue("@descripcion", producto.Descripcion);                    
+                    cmd.Parameters.AddWithValue("@nombre", producto.Nombre);
+                    cmd.Parameters.AddWithValue("@codigo_barras", producto.Codigo);
+                    cmd.Parameters.AddWithValue("@descripcion", producto.Descripcion);
                     cmd.Parameters.AddWithValue("@Costo", producto.Costo);
+                    cmd.Parameters.AddWithValue("@idSucursal", producto.IdSucursal);
                     cmd.Parameters.AddWithValue("@StatementType", "UPDATE");
 
                     con.Open();
@@ -140,18 +146,17 @@ namespace APIGymTEC.Models
 
 
 
-        public Producto GetProducto(int? codigo)
+        public IEnumerable<Producto> GetProductos()
         {
-           
-            Producto producto = new Producto();
+            List<Producto> productos = new List<Producto>();
 
             try
             {
+
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {
-                    SqlCommand cmd = new SqlCommand("GetProducto", con);
+                    SqlCommand cmd = new SqlCommand("GetProductos", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@code", codigo);
 
                     con.Open();
 
@@ -166,22 +171,32 @@ namespace APIGymTEC.Models
                         throw new Exception(ex.Message);
                     }
 
+
                     if (rdr.HasRows)
                     {
-                        
                         while (rdr.Read())
                         {
-                            producto.Codigo = rdr["Codigo"].ToString();
-                            producto.Nombre = rdr["Nombre"].ToString();
-                            producto.Descripcion = rdr["Descripcion"].ToString();
-                            producto.Costo = Convert.ToInt32(rdr["Costo"]);
-                            producto.IdSucursal = Convert.ToInt32(rdr["IdSucursal"]);
+                            Producto prodcuto = new Producto();
+                            prodcuto.Codigo = rdr["Codigo"].ToString();
+                            prodcuto.Nombre = rdr["Nombre"].ToString();
+                            prodcuto.Descripcion = rdr["Descripcion"].ToString();
+                            prodcuto.Costo = Convert.ToInt32(rdr["Costo"]);
+                            try
+                            {
+                                prodcuto.IdSucursal = Convert.ToInt32(rdr["IdSucursal"]);
+                            }
+                            catch
+                            {
 
-                           
+                            }
+
+                            productos.Add(prodcuto);
                         }
                     }
-                  
-                    return producto;
+
+                    rdr.Close();
+                    con.Close();
+                    return productos;
                 }
             }
             catch (Exception ex)
@@ -194,7 +209,7 @@ namespace APIGymTEC.Models
 
 
 
-        public List <Producto> GetAllProductoXSucursal(int? sucursal)
+        public List<Producto> GetAllProductoXSucursal(int? sucursal)
 
         {
             List<Producto> productos = new List<Producto>();
@@ -228,12 +243,10 @@ namespace APIGymTEC.Models
                         {
                             producto.Codigo = rdr["Codigo"].ToString();
                             producto.Nombre = rdr["Nombre"].ToString();
-                            producto.Descripcion = rdr["Descripcion"].ToString();                            
+                            producto.Descripcion = rdr["Descripcion"].ToString();
                             producto.Costo = Convert.ToInt32(rdr["Costo"]);
                             producto.IdSucursal = Convert.ToInt32(rdr["IdSucursal"]);
                             productos.Add(producto);
-
-                        
                         }
                     }
                     rdr.Close();
@@ -256,7 +269,7 @@ namespace APIGymTEC.Models
                     SqlCommand cmd = new SqlCommand("uspCUDProducto", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@codigo_barras", codigo);
-                    cmd.Parameters.AddWithValue ("@StatementTypecodigo_barras", "DELETE");
+                    cmd.Parameters.AddWithValue("@StatementType", "DELETE");
                     con.Open();
                     cmd.ExecuteNonQuery();
                 }
@@ -269,7 +282,7 @@ namespace APIGymTEC.Models
 
         }
 
-        public void UpdateStockProducto(int? stock,string? codigo)
+        public void UpdateStockProducto(int? stock, string? codigo)
         {
             try
             {
@@ -277,10 +290,10 @@ namespace APIGymTEC.Models
                 {
                     SqlCommand cmd = new SqlCommand("UpdateStockProducto", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                  
-                    cmd.Parameters.AddWithValue("@codigo ",codigo);
+
+                    cmd.Parameters.AddWithValue("@codigo ", codigo);
                     cmd.Parameters.AddWithValue("@stock", stock);
-                  
+
 
                     con.Open();
                     cmd.ExecuteNonQuery();

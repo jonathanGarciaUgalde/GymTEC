@@ -22,7 +22,7 @@ namespace APIGymTEC.Models
         public string Horario { get; set; }
 
     }
-    
+
     public class SucursalDataAccessLayer
     {
         string connectionString = ConnectionString.CName;
@@ -30,7 +30,7 @@ namespace APIGymTEC.Models
         public IEnumerable<Sucursal> GetAllSucursales() //GET 
         {
             List<Sucursal> sucursales = new List<Sucursal>();
-            
+
             try
             {
                 using (SqlConnection con = new SqlConnection(connectionString))
@@ -59,15 +59,13 @@ namespace APIGymTEC.Models
                         {
                             Sucursal sucursal = new Sucursal();
                             sucursal.Id = Convert.ToInt32(rdr["Id"]);
-                            sucursal.Nombre = rdr["Nombre"].ToString();
+                            sucursal.Tienda = (bool)rdr["Tienda"];
+                            sucursal.Spa = (bool)rdr["Spa"];
                             sucursal.Capacidad = Convert.ToInt32(rdr["Capacidad"]);
+                            sucursal.Nombre = rdr["Nombre"].ToString();
                             sucursal.Provincia = rdr["Provincia"].ToString();
                             sucursal.Canton = rdr["Canton"].ToString();
                             sucursal.Distrito = rdr["Distrito"].ToString();
-                            sucursal.Tienda = (bool)rdr["Tienda"];
-                            sucursal.Spa = (bool)rdr["Spa"];
-                            sucursal.FechaApertura = rdr["FechaApertura"].ToString();
-                            sucursal.Horario = rdr["Horario"].ToString();
 
 
                             sucursales.Add(sucursal);
@@ -115,15 +113,13 @@ namespace APIGymTEC.Models
                         while (rdr.Read())
                         {
                             sucursal.Id = Convert.ToInt32(rdr["Id"]);
-                            sucursal.Nombre = rdr["Nombre"].ToString();
+                            sucursal.Tienda = (bool)rdr["Tienda"];
+                            sucursal.Spa = (bool)rdr["Spa"];
                             sucursal.Capacidad = Convert.ToInt32(rdr["Capacidad"]);
+                            sucursal.Nombre = rdr["Nombre"].ToString();
                             sucursal.Provincia = rdr["Provincia"].ToString();
                             sucursal.Canton = rdr["Canton"].ToString();
                             sucursal.Distrito = rdr["Distrito"].ToString();
-                            sucursal.Tienda = (bool)rdr["Tienda"];
-                            sucursal.Spa = (bool)rdr["Spa"];
-                            sucursal.FechaApertura = rdr["FechaApertura"].ToString();
-                            sucursal.Horario = rdr["Horario"].ToString();
                         }
                     }
                     return sucursal;
@@ -143,7 +139,8 @@ namespace APIGymTEC.Models
                 {
                     SqlCommand cmd = new SqlCommand("uspInsertarSucursal", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    
+
+                    //cmd.Parameters.AddWithValue("@Id", sucursal.Id);
                     cmd.Parameters.AddWithValue("@Tienda", false);
                     cmd.Parameters.AddWithValue("@Spa", false);
                     cmd.Parameters.AddWithValue("@Capacidad", sucursal.Capacidad);
@@ -151,9 +148,6 @@ namespace APIGymTEC.Models
                     cmd.Parameters.AddWithValue("@Provincia", sucursal.Provincia);
                     cmd.Parameters.AddWithValue("@Canton", sucursal.Canton);
                     cmd.Parameters.AddWithValue("@Distrito", sucursal.Distrito);
-                    cmd.Parameters.AddWithValue("@FechaApertura", sucursal.FechaApertura);
-                    cmd.Parameters.AddWithValue("@Horario", sucursal.Horario);
-
 
                     con.Open();
                     cmd.ExecuteNonQuery();
@@ -176,13 +170,13 @@ namespace APIGymTEC.Models
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.Parameters.AddWithValue("@Id", sucursal.Id);
+                    cmd.Parameters.AddWithValue("@Tienda", sucursal.Tienda);
+                    cmd.Parameters.AddWithValue("@Spa", sucursal.Spa);
                     cmd.Parameters.AddWithValue("@Capacidad", sucursal.Capacidad);
                     cmd.Parameters.AddWithValue("@Nombre", sucursal.Nombre);
                     cmd.Parameters.AddWithValue("@Provincia", sucursal.Provincia);
                     cmd.Parameters.AddWithValue("@Canton", sucursal.Canton);
                     cmd.Parameters.AddWithValue("@Distrito", sucursal.Distrito);
-                    cmd.Parameters.AddWithValue("@FechaApertura", sucursal.FechaApertura);
-                    cmd.Parameters.AddWithValue("@Horario", sucursal.Horario);
 
                     con.Open();
                     cmd.ExecuteNonQuery();
@@ -195,7 +189,7 @@ namespace APIGymTEC.Models
             }
 
         }
-    
+
         public void DeleteSucursal(int? id) //DELETE
         {
             try

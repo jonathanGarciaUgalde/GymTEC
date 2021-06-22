@@ -5,14 +5,18 @@ using System.Threading.Tasks;
 using APIGymTEC.Models;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
+/*
+        Capa que permite  enviar  y recibir datos metiante el protocolo http y comunica los diferentes  tipos de 
+        metodos de la capa de datos de clase con su consumer en angular
+            */
 namespace APIGymTEC.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class TipoMaquinaController : ControllerBase
     {
+        //se inicializa  la capa de datos  para recibir o enviar datos a la base de datos 
         TipoMaquinaDataAccessLayer tipoMaquinaDataAccessLayer = null;
         public TipoMaquinaController()
         {
@@ -22,9 +26,11 @@ namespace APIGymTEC.Controllers
 
 
         // GET api/<TipoMaquinaController>/*tipo*
-
+        //
+        // devuelve el tipo de maquina 
         [HttpGet("{tipo}")]
-        public ActionResult GetMaquina(string? tipo)
+
+        public ActionResult GetTipoMaquina(string? tipo)
         {
             try
             {
@@ -36,6 +42,7 @@ namespace APIGymTEC.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        // se  recibe en moldelo del tipo de maquina y se inserta
         [HttpPost]
         public ActionResult Post([FromBody] TipoMaquina tipo)
         {
@@ -53,6 +60,7 @@ namespace APIGymTEC.Controllers
 
         // PUT api/<TipoMaquinaController>/5
         [HttpPut]
+        // se actualizan los tipos de maquina
         public ActionResult UpdateTipoMaquina([FromBody] TipoMaquina tipo)
         {
             try
@@ -67,6 +75,7 @@ namespace APIGymTEC.Controllers
         }
 
         // DELETE api/<TipoMaquinaController>/tipo
+        // se eliminas los tipos de maquina,
         [HttpDelete("{tipo}")]
         public ActionResult Delete(string tipo)
         {

@@ -7,6 +7,7 @@ namespace APIGymTEC.Models
 {
     public class ClaseCompleta
     {
+        public int IdClase { get; set; }//FROM CLASE
         public int IdSucursal { get; set; }//FROM CLASE
         public int Capacidad { get; set; }//FROM CLASE
         public bool EsGrupal { get; set; }//FROM CLASE

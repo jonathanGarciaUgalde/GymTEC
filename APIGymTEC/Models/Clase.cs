@@ -55,6 +55,7 @@ namespace APIGymTEC.Models
                         while (rdr.Read())
                         {
                             ClaseCompleta claseCompleta = new ClaseCompleta();
+                            claseCompleta.IdClase = Convert.ToInt32(rdr["Id"]);
                             claseCompleta.Capacidad = Convert.ToInt32(rdr["Capacidad"]);
                             claseCompleta.EsGrupal = (bool)rdr["EsGrupal"];
                             claseCompleta.Dia = rdr["Dia"].ToString();
@@ -80,7 +81,57 @@ namespace APIGymTEC.Models
                 throw new Exception(ex.Message);
             }
         }
-        public IEnumerable<ClaseCompleta> GetClasePorTipo(string? tipo)
+
+        public IEnumerable<ClaseCompleta> GetClasePorPeriodo(Clase clase)
+        {
+            List<ClaseCompleta> clases = new List<ClaseCompleta>();
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    SqlCommand cmd = new SqlCommand("uspBusquedaClaseXPeriodo", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@PeriodoInicio", clase.HoraInicio);
+                    cmd.Parameters.AddWithValue("@PeriodoFinal", clase.HoraFinal);
+                    con.Open();
+                    SqlDataReader rdr = null;
+                    try
+                    {
+                        rdr = cmd.ExecuteReader();
+                    }
+                    catch (SqlException ex)
+                    {
+                        throw new Exception(ex.Message);
+                    }
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            ClaseCompleta claseCompleta = new ClaseCompleta();
+                            claseCompleta.IdClase = Convert.ToInt32(rdr["Id"]);
+                            claseCompleta.Capacidad = Convert.ToInt32(rdr["Capacidad"]);
+                            claseCompleta.EsGrupal = (bool)rdr["EsGrupal"];
+                            claseCompleta.Dia = rdr["Dia"].ToString();
+                            claseCompleta.HoraInicio = rdr["HoraInicio"].ToString();
+                            claseCompleta.HoraFinal = rdr["HoraFinal"].ToString();
+                            claseCompleta.NombreServicio = rdr["NombreServicio"].ToString();
+                            claseCompleta.NombreEmpleado = rdr["NombreEmpleado"].ToString();
+                            claseCompleta.IdSucursal = Convert.ToInt32(rdr["IdSucursal"]);
+                            clases.Add(claseCompleta);
+                        }
+                    }
+                    rdr.Close();
+                    con.Close();
+                    return clases;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public IEnumerable<ClaseCompleta> GetClasePorTipo(Servicio tipo)
         {
             List<ClaseCompleta> clases = new List<ClaseCompleta>();
             try
@@ -89,7 +140,7 @@ namespace APIGymTEC.Models
                 {
                     SqlCommand cmd = new SqlCommand("uspBusquedaClaseXTipo", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@TipoClase", tipo);
+                    cmd.Parameters.AddWithValue("@TipoClase", tipo.Nombre);
 
                     con.Open();
 
@@ -110,6 +161,7 @@ namespace APIGymTEC.Models
                         while (rdr.Read())
                         {
                             ClaseCompleta claseCompleta = new ClaseCompleta();
+                            claseCompleta.IdClase = Convert.ToInt32(rdr["Id"]);
                             claseCompleta.Capacidad = Convert.ToInt32(rdr["Capacidad"]);
                             claseCompleta.EsGrupal = (bool)rdr["EsGrupal"];
                             claseCompleta.Dia = rdr["Dia"].ToString();
@@ -135,8 +187,6 @@ namespace APIGymTEC.Models
                 throw new Exception(ex.Message);
             }
         }
-
-
 
         public void AddClase(Clase clase)
         {

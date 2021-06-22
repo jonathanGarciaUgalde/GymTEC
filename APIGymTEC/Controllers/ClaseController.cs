@@ -18,12 +18,13 @@ namespace APIGymTEC.Controllers
         {
             claseDataAccessLayer = new ClaseDataAccessLayer();
         }
-        
 
-        // GET api/<ClaseController>/clasePorSucursal
-        [HttpGet("clasePorSucursal/{idSucursal}")]
+
+        // GET api/<ClaseController>/ClasePorSucursal
+        [HttpGet("ClasePorSucursal/{idSucursal}")]
         public ActionResult ClasePorSucursal(int idSucursal)
         {
+            Console.Write(idSucursal);
             try
             {
                 IEnumerable<ClaseCompleta> clases = claseDataAccessLayer.GetClasePorSucursal(idSucursal);
@@ -36,10 +37,25 @@ namespace APIGymTEC.Controllers
 
         }
 
+        // GET api/<ClaseController>/ClasePorPeriodo
+        [HttpPost("ClasePorPeriodo")]
+        public ActionResult ClasePorPeriodo([FromBody] Clase clase)
+        {
+            try
+            {
+                IEnumerable<ClaseCompleta> clases = claseDataAccessLayer.GetClasePorPeriodo(clase);
+                return Ok(clases);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
 
         // GET api/<ClaseController>/clasePorClase
-        [HttpGet("clasePorClase/{tipoClase}")]
-        public ActionResult ClasePorTipo(string tipoClase)
+        [HttpPost("ClasePorTipo")]
+        public ActionResult ClasePorTipo(Servicio tipoClase)
         {
             try
             {
@@ -52,8 +68,20 @@ namespace APIGymTEC.Controllers
             }
         }
 
-
-
+        // POST api/<ClaseController>
+        [HttpPost]
+        public ActionResult addClase([FromBody] Clase clase)
+        {
+            try
+            {
+                claseDataAccessLayer.AddClase(clase);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         // POST api/<ClaseController>
         [HttpPost]

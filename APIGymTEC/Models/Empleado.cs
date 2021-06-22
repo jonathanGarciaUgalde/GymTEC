@@ -34,7 +34,7 @@ namespace APIGymTEC.Models
                 {
                     SqlCommand cmd = new SqlCommand("uspSelectEmpleado", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Id", "-1");
+                    cmd.Parameters.AddWithValue("@Cedula", "-1");
 
                     con.Open();
 
@@ -54,7 +54,7 @@ namespace APIGymTEC.Models
                     {
                         while (rdr.Read())
                         {
-                            EmpleadoCargo empleadoCargo = new EmpleadoCargo();                            
+                            EmpleadoCargo empleadoCargo = new EmpleadoCargo();
                             empleadoCargo.Cedula = rdr["Cedula"].ToString();
                             empleadoCargo.Email = rdr["Email"].ToString();
                             empleadoCargo.Nombre = rdr["Nombre"].ToString();
@@ -63,10 +63,11 @@ namespace APIGymTEC.Models
                             empleadoCargo.Canton = rdr["Canton"].ToString();
                             empleadoCargo.Distrito = rdr["Distrito"].ToString();
                             empleadoCargo.IdSucursal = Convert.ToInt32(rdr["IdSucursal"]);
-                            
+                            empleadoCargo.Password = rdr["Password"].ToString();
+
                             empleadoCargo.IdPlanilla = Convert.ToInt32(rdr["IdPlanilla"]);
-                            empleadoCargo.Cargo= rdr["Cargo"].ToString();
-                           
+                            empleadoCargo.Cargo = rdr["Cargo"].ToString();
+
                             empleados.Add(empleadoCargo);
                         }
                     }
@@ -81,7 +82,7 @@ namespace APIGymTEC.Models
                 throw new Exception(ex.Message);
             }
         }
-        
+
         public EmpleadoCargo GetEmpleado(string? cedula)
         {
             EmpleadoCargo empleadoCargo = new EmpleadoCargo();
@@ -142,7 +143,7 @@ namespace APIGymTEC.Models
                 {
                     SqlCommand cmd = new SqlCommand("uspInsertEmpleado", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    
+
                     cmd.Parameters.AddWithValue("@Cedula", empleadoCargo.Cedula);
                     cmd.Parameters.AddWithValue("@Email", empleadoCargo.Email);
                     cmd.Parameters.AddWithValue("@Password", empleadoCargo.Password);
@@ -153,11 +154,11 @@ namespace APIGymTEC.Models
                     cmd.Parameters.AddWithValue("@Provincia", empleadoCargo.Provincia);
                     cmd.Parameters.AddWithValue("@Canton", empleadoCargo.Canton);
                     cmd.Parameters.AddWithValue("@Distrito", empleadoCargo.Distrito);
-                    if (empleadoCargo.IdSucursal == 0)                    
-                        cmd.Parameters.AddWithValue("@IdSucursal", null);                  
-                    else                    
+                    if (empleadoCargo.IdSucursal == 0)
+                        cmd.Parameters.AddWithValue("@IdSucursal", null);
+                    else
                         cmd.Parameters.AddWithValue("@IdSucursal", empleadoCargo.IdSucursal);
-                    
+
                     cmd.Parameters.AddWithValue("@IdPlanilla", empleadoCargo.IdPlanilla);
 
                     con.Open();
@@ -191,7 +192,7 @@ namespace APIGymTEC.Models
                     cmd.Parameters.AddWithValue("@Canton", empleadoCargo.Canton);
                     cmd.Parameters.AddWithValue("@Distrito", empleadoCargo.Distrito);
 
-                    cmd.Parameters.AddWithValue("@IdSucursal", empleadoCargo.IdSucursal);                    
+                    cmd.Parameters.AddWithValue("@IdSucursal", empleadoCargo.IdSucursal);
 
                     con.Open();
                     cmd.ExecuteNonQuery();
@@ -202,7 +203,7 @@ namespace APIGymTEC.Models
             {
                 throw new Exception(ex.Message);
             }
-        }       
+        }
         public void DeleteEmpleado(string? cedula)
         {
             try
@@ -221,6 +222,46 @@ namespace APIGymTEC.Models
                 throw new Exception(ex.Message);
             }
         }
-        
+
+        public EmpleadoCargo GetLogin(Empleado empleado)
+        {
+            EmpleadoCargo empleadoCargo = new EmpleadoCargo();
+
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    SqlCommand cmd = new SqlCommand("uspLogin", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Email", empleado.Email);
+                    cmd.Parameters.AddWithValue("@Password", empleado.Password);
+                    con.Open();
+                    SqlDataReader rdr = null;
+                    try
+                    {
+                        rdr = cmd.ExecuteReader();
+                    }
+                    catch (SqlException ex)
+                    {
+                        throw new Exception(ex.Message);
+                    }
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            empleadoCargo.Cargo = rdr["Cargo"].ToString();
+                        }
+                    }
+                    rdr.Close();
+                    con.Close();
+                    return empleadoCargo;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 }

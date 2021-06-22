@@ -154,7 +154,7 @@ namespace APIGymTEC.Models
 
         public void UpdateTelefono(Telefono telefono)
         {
-            
+
         }
 
         public void DeleteTelefono(int? id)

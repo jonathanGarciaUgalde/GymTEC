@@ -29,7 +29,7 @@ namespace APIGymTEC.Models
                 {
                     SqlCommand cmd = new SqlCommand("uspSelectServicios", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@Id", -1);
+                    cmd.Parameters.AddWithValue("@IdSucursal", -1);
 
                     con.Open();
 
@@ -53,7 +53,7 @@ namespace APIGymTEC.Models
 
                             servicio.Id = Convert.ToInt32(rdr["Id"]);
                             servicio.Nombre = rdr["Nombre"].ToString();
-                            servicio.Nombre = rdr["Descripcion"].ToString();
+                            servicio.Descripcion = rdr["Descripcion"].ToString();
                             servicio.IdSucursal = Convert.ToInt32(rdr["IdSucursal"]);
 
 
@@ -123,7 +123,7 @@ namespace APIGymTEC.Models
                     SqlCommand cmd = new SqlCommand("uspInsertServicio", con);
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    
+
                     cmd.Parameters.AddWithValue("@Nombre", servicio.Nombre);
                     cmd.Parameters.AddWithValue("@Descripcion", servicio.Descripcion);
                     cmd.Parameters.AddWithValue("@IdSucursal", servicio.IdSucursal);

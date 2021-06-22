@@ -7,7 +7,9 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace APIGymTEC.Models
-{
+{  /*
+    * modelo relacionado  con capa  de datos  que  se  encarga de gestionar  los tipos de las maquinas 
+    */
     public class TipoMaquina
     {
         public string Tipo { get; set; } //PK
@@ -19,11 +21,13 @@ namespace APIGymTEC.Models
     {
         string connectionString = ConnectionString.CName;
 
+        // devuelve todos los tipos de maquinas asociados   en las tiendas del gymTEC
         public IEnumerable<TipoMaquina> GetAllTipoMaquina()
         {
             List<TipoMaquina> tipoMaquinas = new List<TipoMaquina>();
             return tipoMaquinas;
         }
+        // se añade  un tipo de maquina que se provee de la capa de control de datos 
         public void AddTipoMaquina(TipoMaquina tipo) //CREATE
         {
             try
@@ -45,7 +49,8 @@ namespace APIGymTEC.Models
                 throw new Exception(ex.Message);
             }
         }
-
+        // toma una  un tipo de maquina existente  y a ese le procede a realizar  los cambios 
+        // de acuerdo al procedimiento almacenado
         public void UpdateTipoMaquina(TipoMaquina tipoMaquina)
         {
             try
@@ -71,6 +76,7 @@ namespace APIGymTEC.Models
             }
 
         }
+        // devuelve la  informacion de  tipo de maquina 
         public TipoMaquina GetTipoMaquina(string? tipo)
         {
             TipoMaquina tipoMaquina = new TipoMaquina();
@@ -110,7 +116,7 @@ namespace APIGymTEC.Models
                 throw new Exception(ex.Message);
             }
         }
-
+        // se elimina  un tipo de maquina
         public void DeleteTipoMaquina(string? id)
         {
             try

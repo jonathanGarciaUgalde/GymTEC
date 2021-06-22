@@ -96,5 +96,21 @@ namespace APIGymTEC.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        // GET api/<ClaseController>/Login
+        [HttpGet("Login")]
+        public ActionResult GetLogin([FromBody] Empleado empleado)
+        {
+            try
+            {
+                EmpleadoCargo empleadoCargo = empleadoDataAccessLayer.GetLogin(empleado);
+                return Ok(empleadoCargo.Cargo);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
     }
 }

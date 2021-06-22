@@ -4,25 +4,24 @@ using System.Linq;
 using System.Threading.Tasks;
 using APIGymTEC.Models;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
+/*
+        Capa que permite  enviar  y recibir datos metiante el protocolo http y comunica los diferentes  tipos de 
+        metodos de la capa de datos de clase con su consumer en angular
+            */
 namespace APIGymTEC.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class MaquinaController : ControllerBase
     {
-
+        // comunicación con capa de  datos
         MaquinaDataAccessLayer maquinaDataAccessLayer = null;
         public MaquinaController()
         {
             maquinaDataAccessLayer = new MaquinaDataAccessLayer();
         }
-
-
-
         // GET: api/<SucursalController>
+        // se recibe  de la pagina web  una peticion de obtener  el  inventario  asociado a  una sicursal
         [HttpGet("{sucursal}")]
         public ActionResult GeInventario(int sucursal)
         {
@@ -37,8 +36,9 @@ namespace APIGymTEC.Controllers
             }
         }
 
-
         // GET api/<MaquinaController>/5
+        // se recibe  de la pagina web  una peticion de obtener   una maquina especifica asociada a  una sicursal
+
         [HttpGet("{id}")]
         public ActionResult GetMaquina(int id)
         {
@@ -52,8 +52,9 @@ namespace APIGymTEC.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
         // POST api/<MaquinaController>
+        // se recibe  de la pagina web  una peticion de Insertar   una maquina asociada  a una sucursal
+        // actualiza inventario de igual manera 
         [HttpPost]
         public ActionResult InsertMaquina([FromBody] Maquina maquina)
         {
@@ -68,8 +69,10 @@ namespace APIGymTEC.Controllers
             }
 
         }
-
         // PUT api/<MaquinaController>/5
+        // se recibe  de la pagina web  una peticion de actualizar   una maquina asociada  a una sucursal
+        // actualiza inventario de igual manera 
+
         [HttpPut("{id}")]
         public ActionResult UpdateMaquina(int id, [FromBody] Maquina maquina)
         {
@@ -84,8 +87,9 @@ namespace APIGymTEC.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
         // DELETE api/<MaquinaController>/5
+        // se recibe  de la pagina web  una peticion de eliminar   una maquina asociada  a una sucursal
+        // actualiza inventario de igual manera 
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {

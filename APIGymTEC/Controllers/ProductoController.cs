@@ -20,22 +20,22 @@ namespace APIGymTEC.Controllers
             productoDataAccessLayer = new ProductoDataAccessLayer();
         }
 
-        // GET: api/<ProductoController>
-        [HttpGet("{codigo}")]
-        public ActionResult Get(int codigo)
+
+        // GET api/<ProductoController>
+        [HttpGet()]
+        public ActionResult Get()
         {
             try
             {
-                IEnumerable<Producto> producto = (IEnumerable<Producto>)productoDataAccessLayer.GetProducto(codigo);
-                return Ok(producto);
+                IEnumerable<Producto> productos = productoDataAccessLayer.GetProductos();
+                return Ok(productos);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-
-
         }
+
 
         // GET api/<ProductoController>/5
         [HttpGet("{idSucursal}")]
@@ -71,7 +71,7 @@ namespace APIGymTEC.Controllers
         }
 
         // PUT api/<ProductoController>/5
-        [HttpPost]
+        [HttpPut]
         public ActionResult updateProducto([FromBody] Producto producto)
         {
             try
@@ -108,19 +108,21 @@ namespace APIGymTEC.Controllers
 
         // DELETE api/<ProductoController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(string id) {
+        public ActionResult Delete(string id)
+        {
             try
             {
 
                 productoDataAccessLayer.DeleteProducto(id);
-                   return Ok(); }
+                return Ok();
+            }
 
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-            
-        }
+
     }
+}
 

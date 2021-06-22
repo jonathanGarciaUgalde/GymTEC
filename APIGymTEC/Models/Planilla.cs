@@ -55,7 +55,7 @@ namespace APIGymTEC.Models
                         while (rdr.Read())
                         {
                             Planilla planilla = new Planilla();
-                            planilla.Id = Convert.ToInt32(rdr["Id"]);                     
+                            planilla.Id = Convert.ToInt32(rdr["Id"]);
                             planilla.Cargo = rdr["Cargo"].ToString();
 
                             planilla.Mensual = Convert.ToInt32(rdr["Mensual"]);
@@ -108,7 +108,7 @@ namespace APIGymTEC.Models
                     if (rdr.HasRows)
                     {
                         while (rdr.Read())
-                        {                            
+                        {
                             planilla.Id = Convert.ToInt32(rdr["Id"]);
                             planilla.Cargo = rdr["Cargo"].ToString();
 
@@ -139,7 +139,7 @@ namespace APIGymTEC.Models
                 {
                     SqlCommand cmd = new SqlCommand("insertPlanilla", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    
+
                     cmd.Parameters.AddWithValue("@Cargo", planilla.Cargo);
 
                     cmd.Parameters.AddWithValue("@Mensual", planilla.Mensual);
@@ -191,7 +191,7 @@ namespace APIGymTEC.Models
                 throw new Exception(ex.Message);
             }
         }
-        
+
         public void DeletePlanilla(int? id)
         {
             try
