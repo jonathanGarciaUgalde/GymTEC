@@ -22,6 +22,11 @@ import { ProductosComponent } from './componentes/admin/productos/productos.comp
 import { GimnasioComponent } from './componentes/admin/gimnasio/gimnasio.component';
 import { CalendarioComponent } from './componentes/admin/calendario/calendario.component';
 
+// Librerias Cliente
+import { routingComponents } from './app-routing.module';
+import { ReactiveFormsModule} from '@angular/forms'
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,13 +42,16 @@ import { CalendarioComponent } from './componentes/admin/calendario/calendario.c
     InventarioComponent,
     ProductosComponent,
     GimnasioComponent,
-    CalendarioComponent
+    CalendarioComponent,
+    routingComponents
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,    
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    NgbModule,
+    ReactiveFormsModule, 
   ],
   providers: [],
   bootstrap: [AppComponent]
