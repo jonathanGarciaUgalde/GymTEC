@@ -214,6 +214,28 @@ export class AdminService {
 	}
 
 
+	// Servicios -> David
+	LoginAdmin(email:string, pass:string){
+    
+		let direccion = this.baseURL + "/Empleado/Login";
+		
+		  return this.http.post(direccion,
+		  {
+			Cedula : "",
+			Email : email,
+			Password : pass,
+			Nombre : "",
+			Apellido : "",
+			Provincia : "",
+			Tipo : "",
+			Canton : "",
+			Distrito : "",
+			IdSucursal : 0
+		  },
+		  {responseType: 'text'}
+		  );
+		
+	  }
 
 
 

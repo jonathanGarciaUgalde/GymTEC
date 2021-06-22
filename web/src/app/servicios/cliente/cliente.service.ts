@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 export class ClienteService {
 
   url:string = "https://localhost:44318/api/";
-  urlSQLServer:string = "https://localhost:52217/api/";
+  urlSQLServer:string = "https://localhost:44307/api/";
 
   constructor(private http:HttpClient ) { }
 
