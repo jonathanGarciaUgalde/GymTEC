@@ -1,3 +1,55 @@
 <app-nabvar></app-nabvar>
 
-<p>inventario works!</p>
+<div class="container mt-3">
+	<div class="card">
+		<div class="card-header">Gestionar Tipo Equipo</div>
+		<div class="card-body">
+			<table id="tiposTable" border="1" class="table table-bordered table-lg">
+				<thead class="thead-light text-center">
+					<tr>
+						<th>Tipo</th>
+						<th>Descripcion</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="text-center" *ngFor="let tipo of tipos; let i = index">
+						<td>{{tipo.tipo}</td>
+						<td>{{tipo.descripcion}}</td>
+						<td> 
+							<a class="btn btn-light" (click)="actualizarTipo(mymodal,tipo)"> Editar </a> 
+							<a (click)="eliminarTipo(tipo)" class="btn btn-danger ml-4"> Eliminar </a>
+						</td>			
+					</tr>
+				</tbody>
+			</table>
+			<button type="submit" class="btn btn-success" (click)="crearNuevo(mymodal)">
+				Crear nuevo
+			</button>
+		</div>
+	</div>
+</div>
+
+   
+<ng-template #mymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Información</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-tipo" #formTipo="ngForm" (ngSubmit)="guardarTipo(formTipo)">
+    	<div class="form-group">
+				<label *ngIf="!this.actualizar" for="tipo">Tipo</label>
+				<input *ngIf="!this.actualizar" type="text" id="tipo" name="tipo" class="form-control" placeholder="Tipo" [(ngModel)]="this.tipoActual.tipo">
+			</div>
+          <div class="form-group">
+            <label for="descripcion">Descripción</label>
+            <input type="text" id="descripcion" name="descripcion" class="form-control" placeholder="Descripción" [(ngModel)]="this.tipoActual.descripcion">
+          </div>         
+        </form>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-light" (click)="guardarTipo(formTipo)">Guardar</button>
+  </div>
+</ng-template>

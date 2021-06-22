@@ -1,4 +1,80 @@
 <app-nabvar></app-nabvar>
 
 
-<p>equipo works!</p>
+<div class="container mt-3">
+	<div class="card">
+		<div class="card-header">Gestionar Equipo</div>
+		<div class="card-body">
+			<table id="equiposTable" border="1" class="table table-bordered table-lg">
+				<thead class="thead-light text-center">
+					<tr>
+						<th>Serie</th>
+						<th>Marca</th>
+						<th>Costo</th>
+						<th>Descripcion</th>		
+            <th>Tipo</th>
+						<th>Id Sucursal</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="text-center" *ngFor="let equipo of equipos; let i = index">
+						<td>{{equipo.serie}</td>
+						<td>{{equipo.marca}}</td>
+						<td>{{equipo.costo}}</td>
+						<td>{{equipo.descripcion}}</td>
+						<td>{{equipo.tipo}}</td>
+            			<td>{{equipo.idSucursal}}</td> 
+						<td> 
+							<a class="btn btn-light" (click)="actualizarEquipo(mymodal,equipo)"> Editar </a> 
+							<a (click)="eliminarEquipo(equipo)" class="btn btn-danger ml-4"> Eliminar </a>
+						</td>			
+					</tr>
+				</tbody>
+			</table>
+			<button type="submit" class="btn btn-success" (click)="crearNuevo(mymodal)">
+				Crear nuevo
+			</button>
+		</div>
+	</div>
+</div>
+
+   
+<ng-template #mymodal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Información</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-equipo" #formEquipo="ngForm" (ngSubmit)="guardarEquipo(formEquipo)">
+    	<div class="form-group">
+				<label *ngIf="!this.actualizar" for="serie">Numero de serie</label>
+				<input *ngIf="!this.actualizar" type="text" id="serie" name="serie" class="form-control" placeholder="Numero de Serie" [(ngModel)]="this.equipoActual.serie">
+			</div>
+          <div class="form-group">
+            <label for="marca">Marca</label>
+            <input type="text" id="marca" name="marca" class="form-control" placeholder="Marca" [(ngModel)]="this.equipoActual.marca">
+          </div>
+          <div class="form-group">
+            <label for="costo">Costo</label>
+            <input type="number" id="costo" name="costo" class="form-control" placeholder="Costo" [(ngModel)]="this.equipoActual.costo">
+          </div>
+          <div class="form-group">
+            <label for="descripcion">Descripción</label>
+            <input type="text" id="descripcion" name="descripcion" class="form-control" placeholder="Descripción" [(ngModel)]="this.equipoActual.descripcion">
+          </div>
+          <div class="form-group">
+            <label for="tipo">Tipo</label>
+            <input type="text" id="tipo" name="tipo" class="form-control" placeholder="Tipo" [(ngModel)]="this.equipoActual.tipo">
+          </div>
+          <div class="form-group">
+            <label for="idSucursal">Sucursal</label>
+            <input type="number" id="idSucursal" name="idSucursal" class="form-control" placeholder="Sucursal" [(ngModel)]="this.equipoActual.idSucursal">
+          </div>         
+        </form>
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-light" (click)="guardarEquipo(formEquipo)">Guardar</button>
+  </div>
+</ng-template>

@@ -189,27 +189,105 @@ export class AdminService {
 		return this.http.get(url);
 	}
 
-	crearEmpleado(servicioForm: NgForm){
-		const url = this.baseURL + "/Servicio"
+	crearEmpleado(empleadoForm: NgForm){
+		const url = this.baseURL + "/Empleado"
 		return this.http.post(url,{  		
-			"Nombre": servicioForm.value.nombre,
-			"Descripcion": servicioForm.value.descripcion,
-			"IdSucursal": servicioForm.value.idSucursal
+			"Nombre": empleadoForm.value.nombre,
+			"Cedula": empleadoForm.value.cedula,
+			"Email": empleadoForm.value.email,
+			"Apellido": empleadoForm.value.apellido,
+			"Provincia": empleadoForm.value.provincia,
+			"Distrito": empleadoForm.value.distrito,
+			"Canton": empleadoForm.value.canton,
+			"Password": empleadoForm.value.password,
+			"IdSucursal": empleadoForm.value.sucursal,
+			"IdPlanilla": empleadoForm.value.planilla
 		});
 	}
 
-	eliminarEmpleado(servicio:any){
-		const url = this.baseURL + "/Servicio/" + servicio.id 
+	eliminarEmpleado(empleado:any){
+		const url = this.baseURL + "/Empleado/" + empleado.cedula 
 		return this.http.delete(url);
 	}
 
-	actualizarEmpleado(servicioForm: NgForm, codigo){
-		const url = this.baseURL + "/Servicio/" + codigo
+	actualizarEmpleado(empleadoForm: NgForm, cedula){
+		const url = this.baseURL + "/Empleado/" + cedula
 		return this.http.put(url,{
-			"Id":codigo,
-			"Nombre": servicioForm.value.nombre,
-			"Descripcion": servicioForm.value.descripcion,
-			"IdSucursal": servicioForm.value.idSucursal
+			"Nombre": empleadoForm.value.nombre,
+			"Cedula": empleadoForm.value.cedula,
+			"Email": empleadoForm.value.email,
+			"Apellido": empleadoForm.value.apellido,
+			"Provincia": empleadoForm.value.provincia,
+			"Distrito": empleadoForm.value.distrito,
+			"Canton": empleadoForm.value.canton,
+			"Password": empleadoForm.value.password,
+			"IdSucursal": empleadoForm.value.sucursal,
+			"IdPlanilla": empleadoForm.value.planilla
+		});
+	}
+
+		/*--------------Peticiones asociadas al equipo----------*/
+
+	obtenerEquipos(){
+		const url = this.baseURL + "/Equipo";
+		return this.http.get(url);
+	}
+
+	crearEquipo(equipoForm: NgForm){
+		const url = this.baseURL + "/Equipo"
+		return this.http.post(url,{  		
+			"Serie": equipoForm.value.serie,
+			"Marca": equipoForm.value.marca,
+			"Costo": equipoForm.value.costo,
+			"Tipo": equipoForm.value.tipo,
+			"Descripcion": equipoForm.value.descripcion,
+			"IdSucursal": equipoForm.value.idSucursal
+		});
+	}
+
+	eliminarEquipo(equipo:any){
+		const url = this.baseURL + "/Equipo/" + equipo.serie 
+		return this.http.delete(url);
+	}
+
+	actualizarEquipo(equipoForm: NgForm, serie){
+		const url = this.baseURL + "/Equipo/" + serie
+		return this.http.put(url,{
+			"Serie":serie,
+			"Marca": equipoForm.value.marca,
+			"Costo": equipoForm.value.costo,
+			"Tipo": equipoForm.value.tipo,
+			"Descripcion": equipoForm.value.descripcion,
+			"IdSucursal": equipoForm.value.idSucursal
+		});
+	}
+
+
+			/*--------------Peticiones asociadas al tipos----------*/
+
+	obtenerTipos(){
+		const url = this.baseURL + "/TipoMaquina";
+		return this.http.get(url);
+	}
+
+	crearTipo(tipoForm: NgForm){
+		const url = this.baseURL + "/TipoMaquina"
+		return this.http.post(url,{  		
+			"Tipo": tipoForm.value.tipo,
+			"Descripcion": tipoForm.value.descripcion
+		});
+	}
+
+	eliminarTipo(tipo:any){
+		const url = this.baseURL + "/TipoMaquina/" + tipo.serie 
+		return this.http.delete(url);
+	}
+
+	actualizarTipo(equipoForm: NgForm, tipo){
+		const url = this.baseURL + "/TipoMaquina/" + tipo
+		return this.http.put(url,{
+			"Tipo":tipo,
+			"Descripcion": equipoForm.value.descripcion,
 		});
 	}
 

@@ -71,6 +71,10 @@
 				<input type="text" id="apellido" name="apellido" class="form-control" placeholder="Apellido" [(ngModel)]="this.empleadoActual.apellido">
 			</div>
 			<div class="form-group">
+				<label for="provincia">Provincia</label>
+				<input type="text" id="provincia" name="provincia" class="form-control" placeholder="Provincia" [(ngModel)]="this.empleadoActual.provincia">
+			</div>
+			<div class="form-group">
 				<label for="canton">Canton</label>
 				<input type="text" id="canton" name="canton" class="form-control" placeholder="Canton" [(ngModel)]="this.empleadoActual.canton">
 			</div>
@@ -86,13 +90,13 @@
 			</div>
 			<div class="form-group">
 				<label for="planilla">Planilla</label>
-				<select [(ngModel)]="this.empleadoActual.idPlanilla" name="planilla" id="planilla" class="form-control" >
-					<option *ngFor="let planilla of this.planillasDisponibles" value={{planilla.id}}>{{planilla.id}}</option>
+				<select  [(ngModel)]="this.empleadoActual.idPlanilla" name="planilla" id="planilla" class="form-control" >
+					<option *ngFor="let planillatmp of this.planillasDisponibles" value={{planillatmp.id}}>{{planillatmp.id}}</option>
 				</select>
 			</div>       
 		</form>
 	</div>
 	<div class="modal-footer">
-		<button type="submit" class="btn btn-light" (click)="guardarEmpleado()">Guardar</button>
+		<button type="submit" class="btn btn-light" (click)="guardarEmpleado(formEmpleado)">Guardar</button>
 	</div>
 </ng-template>

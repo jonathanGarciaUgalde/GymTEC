@@ -16,6 +16,7 @@ export class EmpleadosComponent implements OnInit {
 	constructor(private modalService: NgbModal, public api:AdminService) { }
 
 
+	
 
 	ngOnInit(): void {
 		this.api.obtenerSucursales()
@@ -45,7 +46,8 @@ export class EmpleadosComponent implements OnInit {
 		distrito:null,
 		idPlanilla:null,
 		cargo:null,
-		idSucursal: null
+		idSucursal: null,
+		password:null
 	}
 
 	open(content) {
@@ -82,6 +84,7 @@ export class EmpleadosComponent implements OnInit {
 	actualizarEmpleado(content, empleado:any){
 
 		this.empleadoActual = empleado;
+		this.empleadoActual.idPlanilla = empleado.idPlanilla;
 		this.actualizar = true;
 		this.open(content);
 	}
@@ -119,12 +122,13 @@ export class EmpleadosComponent implements OnInit {
 		this.empleadoActual.distrito = null,
 		this.empleadoActual.idPlanilla= null,
 		this.empleadoActual.cargo= null,
+		this.empleadoActual.password=null,
 		this.empleadoActual.idSucursal= 0 
 	}
 
 	cargarPlanillasDisponibles(){	
 
-		alert(this.empleadoActual.idSucursal);
+		this.planillasDisponibles = [];
 
 		this.api.obtenerPlanillas()
 		.subscribe((response:any[])=>{
