@@ -26,7 +26,7 @@ namespace APIGymTEC.Controllers
         {
             try
             {
-                IEnumerable<Sucursal>  sucursales = sucursalDataAccessLayer.GetAllSucursales();
+                IEnumerable<Sucursal> sucursales = sucursalDataAccessLayer.GetAllSucursales();
                 return Ok(sucursales);
             }
             catch (Exception ex)
@@ -41,7 +41,7 @@ namespace APIGymTEC.Controllers
         {
             try
             {
-                Sucursal sucursal= sucursalDataAccessLayer.GetSucursal(id);
+                Sucursal sucursal = sucursalDataAccessLayer.GetSucursal(id);
                 return Ok(sucursal);
             }
             catch (Exception ex)
@@ -104,7 +104,7 @@ namespace APIGymTEC.Controllers
         public ActionResult ActivarSpa(int idSucursal)
         {
             try
-            {                
+            {
                 sucursalDataAccessLayer.ActivarSpa(idSucursal);
                 return Ok();
             }
